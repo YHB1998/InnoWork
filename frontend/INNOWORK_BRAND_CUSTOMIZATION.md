@@ -1,7 +1,7 @@
-# InnoWork 品牌定制迁移指南
+# InnuovoWork 品牌定制迁移指南
 
-> 本文档记录了从 WeKnora 上游版本定制为 InnoWork 品牌时的所有改动项。
-> 当前上游版本：**0.9.0**，定制目标：InnoWork 品牌 + UI 调整 + 功能隐藏。
+> 本文档记录了从 WeKnora 上游版本定制为 InnuovoWork 品牌时的所有改动项。
+> 当前上游版本：**0.9.0**，定制目标：InnuovoWork 品牌 + UI 调整 + 功能隐藏。
 > 下次升级上游版本（如 1.0.x）时，对照本文档逐条应用即可。
 
 ---
@@ -10,18 +10,19 @@
 
 | 操作 | 目标路径 | 来源 | 说明 |
 |---|---|---|---|
-| **新增** | `src/assets/img/innowork.png` | 设计提供 / `frontend-v1` | InnoWork Logo，替换原 `weknora.png` |
+| **新增** | `src/assets/img/innuovowork.png` | 设计提供 | InnuovoWork Logo：透明底 PNG，绿色迷你四角星 + 深海军蓝 `Innuovo` + 品牌绿 `Work`，1718×283px。替换原 `weknora.png` / `innowork.png` |
 | **新增** | `src/assets/img/home-mascot-light.gif` | `frontend-v1` | 新建对话页吉祥物（亮色模式），GIF 自带挥手动效 |
 | **新增** | `src/assets/img/home-mascot-dark.gif` | `frontend-v1` | 新建对话页吉祥物（暗色模式），GIF 自带挥手动效 |
 | **替换** | `public/favicon.ico` | `frontend-v1` | 浏览器标签页图标，替换原 WeKnora favicon |
 
 > `weknora.png` 保留在项目中，部分未改造的内部组件仍会引用。
+> logo 文件历史：`weknora.png` → `innowork.png`（229741 bytes，深蓝渐变 + 金色点缀）→ `innuovowork.png`（1718×283，迷你星形 + 双色文字）。文件名改了之后，menu.vue 和 Login.vue 的 `<img src>` 必须同步更新。
 
 ---
 
 ## 二、品牌文案替换（6 个语言文件 × N 处）
 
-以下 6 个文件中，**所有显示给用户看的** `WeKnora` / `WeKnoraCloud` / `WeKnoraCloud` 都要替换为 `InnoWork` / `InnoWork Cloud` / `InnoWorkCloud`：
+以下 6 个文件中，**所有显示给用户看的** `WeKnora` / `WeKnoraCloud` / `WeKnoraCloud` 都要替换为 `InnuovoWork` / `InnuovoWork Cloud` / `InnuovoWorkCloud`：
 
 - `src/i18n/locales/en-US.ts`
 - `src/i18n/locales/zh-CN.ts`
@@ -34,17 +35,17 @@
 
 | 模式 | 替换为 | 说明 |
 |---|---|---|
-| `WeKnora`（显示字符串） | `InnoWork` | 品牌名 |
-| `WeKnora Cloud`（显示字符串） | `InnoWork Cloud` | 云服务名 |
-| `WeKnoraCloud`（显示字符串） | `InnoWorkCloud` | 无空格的拼法 |
-| `WeKnora standard template` | `InnoWork standard template` | 沙箱模板名 |
-| `WeKnora desktop template` | `InnoWork desktop template` | 沙箱模板名 |
-| `WeKnora standard image` | `InnoWork standard image` | 沙箱镜像名 |
-| `weknora-app` | `innowork-app` | 版本描述中的服务名 |
-| `weknora-ui` | `innowork-ui` | 版本描述中的 UI 名 |
-| `WeKnora CLI` | `InnoWork CLI` | 产品名 |
-| `WeKnora Skill` | `InnoWork Skill` | 产品名 |
-| 本地化文本中的 WeKnora | InnoWork | 按语言自然替换 |
+| `WeKnora`（显示字符串） | `InnuovoWork` | 品牌名 |
+| `WeKnora Cloud`（显示字符串） | `InnuovoWork Cloud` | 云服务名 |
+| `WeKnoraCloud`（显示字符串） | `InnuovoWorkCloud` | 无空格的拼法 |
+| `WeKnora standard template` | `InnuovoWork standard template` | 沙箱模板名 |
+| `WeKnora desktop template` | `InnuovoWork desktop template` | 沙箱模板名 |
+| `WeKnora standard image` | `InnuovoWork standard image` | 沙箱镜像名 |
+| `weknora-app` | `innuovowork-app` | 版本描述中的服务名 |
+| `weknora-ui` | `innuovowork-ui` | 版本描述中的 UI 名 |
+| `WeKnora CLI` | `InnuovoWork CLI` | 产品名 |
+| `WeKnora Skill` | `InnuovoWork Skill` | 产品名 |
+| 本地化文本中的 WeKnora | InnuovoWork | 按语言自然替换 |
 
 ### ⚠️ 不可替换（技术标识符）
 
@@ -66,7 +67,7 @@
 
 ```ts
 // 登录页 brandName 常量（一处修改）
-const brandName = 'InnoWork'
+const brandName = 'InnuovoWork'
 ```
 
 i18n 中对应的键值改为：
@@ -81,24 +82,24 @@ i18n 中对应的键值改为：
 
 ```diff
 -    <title>WeKnora</title>
-+    <title>InnoWork</title>
++    <title>InnuovoWork</title>
 
 -    <meta name="description" content="WeKnora是一款基于大语言模型的文档理解与语义检索框架，专为结构复杂、内容异构的文档场景而打造。"/>
-+    <meta name="description" content="InnoWork是一款AI驱动的智能体工作平台，让智能体帮你完成任务执行、知识检索与内容创作，全面提升工作效率。"/>
++    <meta name="description" content="InnuovoWork是一款AI驱动的智能体工作平台，让智能体帮你完成任务执行、知识检索与内容创作，全面提升工作效率。"/>
 ```
 
 ### 3.2 `embed.html`
 
 ```diff
 -    <title>WeKnora Embed</title>
-+    <title>InnoWork Embed</title>
++    <title>InnuovoWork Embed</title>
 ```
 
 ### 3.3 `src/components/menu.vue`（侧边栏 Logo）
 
 ```diff
 -<img class="logo" src="@/assets/img/weknora.png" alt="">
-+<img class="logo" src="@/assets/img/innowork.png" alt="InnoWork">
++<img class="logo" src="@/assets/img/innuovowork.png" alt="InnuovoWork">
 ```
 
 ### 3.4 `src/views/auth/Login.vue`（登录页）
@@ -111,7 +112,7 @@ i18n 中对应的键值改为：
 -      <img src="@/assets/img/weknora.png" alt="WeKnora" class="logo-image" />
 -    </a>
 +    <!-- Logo - Top Left -->
-+    <img class="page-logo" src="@/assets/img/innowork.png" alt="InnoWork">
++    <img class="page-logo" src="@/assets/img/innuovowork.png" alt="InnuovoWork">
 ```
 
 **⚠️ 同时必须补充 `.page-logo` CSS 样式块**（0.8.3 新增，0.9.0 原本没有）：
@@ -155,7 +156,7 @@ i18n 中对应的键值改为：
 ```diff
  <div class="login-layout">
    <div class="animated-bg">...</div>
-   <img class="page-logo" src="@/assets/img/innowork.png" alt="InnoWork">
+   <img class="page-logo" src="@/assets/img/innuovowork.png" alt="InnuovoWork">
 
 -  <!-- Left Showcase Section -->
 -  <div class="showcase-section">
@@ -245,7 +246,7 @@ i18n 中对应的键值改为：
 
 ```ts
 // 品牌名(定制占位,替换正式名称时只需改这一处)
-const brandName = 'InnoWork'
+const brandName = 'InnuovoWork'
 ```
 
 **脚本改动 2 — 默认语言强制中文**（在业务逻辑 `onMounted(async () => {` 开头插入）：
@@ -441,7 +442,7 @@ docker-entrypoint.sh text eol=lf
 
 以下两个 i18n key 在 6 个语言文件中**必须一起改**，是 0.8.3 定制版的品牌文案：
 
-#### key 1: `platform.subtitle`（登录页品牌名「InnoWork」下方副标题）
+#### key 1: `platform.subtitle`（登录页品牌名「InnuovoWork」下方副标题）
 
 | 语言 | 原值（0.9.0） | 新值（品牌定制） |
 |---|---|---|
@@ -465,16 +466,16 @@ docker-entrypoint.sh text eol=lf
 
 #### key 3: `createChat.title`（新建对话页欢迎区标题，吉祥物上方）
 
-模板 `creatChat.vue` 里的 `.dialogue-title` 绑定的就是这个 key。上游原版是"自我介绍"式的欢迎语，品牌定制改为"今天想在 InnoWork 里做点什么？"这种行动引导句式，en-US 和 ko-KR 上游已是此句式，其他语言文件需要改。
+模板 `creatChat.vue` 里的 `.dialogue-title` 绑定的就是这个 key。上游原版是"自我介绍"式的欢迎语，品牌定制改为"今天想在 InnuovoWork 里做点什么？"这种行动引导句式，en-US 和 ko-KR 上游已是此句式，其他语言文件需要改。
 
 | 语言 | 原值（0.9.0） | 新值（品牌定制） |
 |---|---|---|
-| zh-CN | `Hi，我是 InnoWork，让你的知识触手可及` | `今天想在 InnoWork 里做点什么？` |
-| zh-TW | `Hi，我是 InnoWork，讓你的知識觸手可及` | `今天想在 InnoWork 裡做點什麼？` |
-| en-US | `What would you like to do in InnoWork today?` | 已是目标句式，保持不变 |
-| ja-JP | `こんにちは、InnoWorkです。あなたのナレッジを、すぐそばに` | `今日は InnoWork で何をしますか？` |
-| ko-KR | `오늘 InnoWork에서 무엇을 할까요?` | 已是目标句式，保持不变 |
-| ru-RU | `Привет, я InnoWork — ваши знания всегда под рукой` | `Чем вы хотите заняться в InnoWork сегодня?` |
+| zh-CN | `Hi，我是 InnoWork，让你的知识触手可及` | `今天想在 InnuovoWork 里做点什么？` |
+| zh-TW | `Hi，我是 InnoWork，讓你的知識觸手可及` | `今天想在 InnuovoWork 裡做點什麼？` |
+| en-US | `What would you like to do in InnuovoWork today?` | 已是目标句式，保持不变 |
+| ja-JP | `こんにちは、InnoWorkです。あなたのナレッジを、すぐそばに` | `今日は InnuovoWork で何をしますか？` |
+| ko-KR | `오늘 InnuovoWork에서 무엇을 할까요?` | 已是目标句式，保持不变 |
+| ru-RU | `Привет, я InnoWork — ваши знания всегда под рукой` | `Чем вы хотите заняться в InnuovoWork сегодня?` |
 
 > **快速定位**：搜索 `createChat: {` 找到该对象（en-US/ja-JP ~L3388，zh-CN/zh-TW/ko-KR/ru-RU ~L6340），改 `title` 字段。
 
@@ -568,12 +569,12 @@ return { ...agent, name: t('input.agentMode'), description: t('input.agentModeDe
 
 1. **拉取上游新版本代码**（覆盖 frontend 目录）
 2. **对比静态资源**：确认上游是否新增了需要替换的 logo / gif / svg
-3. **复制定制资源**：`innowork.png`、`home-mascot-*.gif`、`favicon.ico` 复制到新项目
+3. **复制定制资源**：`innuovowork.png`、`home-mascot-*.gif`、`favicon.ico` 复制到新项目
 4. **仓库根 `.gitattributes` + `.gitignore`**（3.9）：这是仓库级防线，必须最先应用，否则后续 Docker build 会因为 CRLF 报 `no such file or directory`
 5. **逐文件应用 Login.vue 修改**：按 3.4 清单改，**注意同时改模板 + 脚本 + CSS + 清理残留**
 6. **逐文件应用其他组件修改**：3.1~3.3、3.5、3.6、3.7、3.8
 7. **i18n 品牌替换**（6 个语言文件）：
-   - 全局替换 WeKnora → InnoWork（跳过不可替换清单）
+   - 全局替换 WeKnora → InnuovoWork（跳过不可替换清单）
    - 按 3.10 节修改 `platform.subtitle` 和 `auth.subtitle` 两个 key（必须逐文件手动改，因为每个语言新值不同）
    - 按 3.10 key 3 修改 `createChat.title`（新建对话页欢迎语，zh-CN/zh-TW/ja-JP/ru-RU 需改，en-US/ko-KR 上游已是目标句式）
 8. **功能隐藏配置**：Settings.vue `HIDDEN_SECTIONS` + integrations.ts `INTEGRATION_PREVIEW_ITEMS`
@@ -600,7 +601,8 @@ return { ...agent, name: t('input.agentMode'), description: t('input.agentModeDe
 | 项目 | 值 |
 |---|---|
 | 上游基准版本 | WeKnora 0.9.0 |
-| 品牌名 | InnoWork |
+| 品牌名 | **InnuovoWork**（2026-11-03 从 InnoWork 改名） |
+| Logo 资产 | `innuovowork.png`（透明底、迷你绿色四角星 + 深蓝 Innuovo + 品牌绿 Work，1718×283px），menu.vue 引用宽度 130px |
 | 隐藏的设置页 | ollama、weknoracloud、integration-claw、integration-cli |
 | 隐藏的集成预览 | cli、claw（chrome 已恢复显示） |
 | 用户弹窗隐藏入口 | 帮助与文档、GitHub（3.8） |
@@ -610,7 +612,7 @@ return { ...agent, name: t('input.agentMode'), description: t('input.agentModeDe
 | 登录页副标题（品牌名下方） | `platform.subtitle` = 「AI 驱动的智能体工作平台」 |
 | 登录页副标题（表单下方） | `auth.subtitle` = 「用 AI 助手与智能体自动化处理任务、检索知识、协同办公」 |
 | 仓库级 CRLF 防御 | `.gitattributes` + `.gitignore` 白名单（3.9，commit `c4329eb`） |
-| 新建对话页欢迎语 | `createChat.title` = 「今天想在 InnoWork 里做点什么？」（3.10 key 3） |
+| 新建对话页欢迎语 | `createChat.title` = 「今天想在 InnuovoWork 里做点什么？」（3.10 key 3） |
 | 默认智能体 | 智能推理（`builtin-smart-reasoning`），所有 fallback 从快速问答迁移（3.11） |
 | 内置智能体名称透传 | 后端配置的 name/description 优先，空串才 fallback i18n（3.12）；已将内置智能体改名为「默认智能体」 |
 
@@ -625,7 +627,7 @@ return { ...agent, name: t('input.agentMode'), description: t('input.agentModeDe
 | **只改模板不清 CSS 残留** | swiper import / 截图图片 / `.showcase-section` / `.login-features` / `.form-section` / `.form-section` / `.feature-item` 等残留样式必须一起删，否则可能有看不见的溢出或暗色模式样式干扰 |
 | **用 `align-items: center` + 内容** | 内容多时会超出 viewport 产生滚动条，用 `flex-start` + `padding-top: 10vh` 更安全 |
 | **忘了改 `auth.subtitle`** | 它和 `platform.subtitle` 是两个不同的 key，分别在品牌名下方和表单标题下方，必须同时改 |
-| **`{brand}` 占位符** | `firstTime` / `registerSubtitle` 等 key 已经用 `{brand}` 占位，不要硬编码 InnoWork，方便下次换品牌名 |
+| **`{brand}` 占位符** | `firstTime` / `registerSubtitle` 等 key 已经用 `{brand}` 占位，不要硬编码 InnuovoWork，方便下次换品牌名 |
 | **只改默认值忘了 fallback** | 智能体默认值不止一个 `defaultSettings.selectedAgentId`——settings getter、auth store 空间重置、agent-mode.ts 的 4 个判断函数、Input-field.vue 兜底对象，全是 `|| BUILTIN_QUICK_ANSWER_ID`，漏改任何一处都会让新用户/切换空间/管线判断回到不存在的快速问答 |
 | **只改生产代码不改测试** | agent-mode.test.mjs 和 settingsStorage.test.mjs 里的 fallback 和默认值必须同步改，否则 `isQuickAnswerAgentId(undefined)` 行为反转导致测试挂掉 |
 | **变量名换了 import 没换** | auth.ts 里把 `BUILTIN_QUICK_ANSWER_ID` 换成 `BUILTIN_SMART_REASONING_ID` 后 import 行必须同步改，否则 TypeScript 报 `找不到名称` |
