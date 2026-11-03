@@ -512,8 +512,55 @@ docker-entrypoint.sh text eol=lf
 2. **不要改 `ensureSelectedAgentNotDisabled` 里的兜底优先级**——它本来就是"智能推理 → 快速问答 → 第一个可用"，刚好符合定制后的期望
 3. **auth.ts 的 import 必须同步改**——只换变量名不换 import 会产生 `找不到名称 "BUILTIN_SMART_REASONING_ID"` 的 TypeScript 错误
 4. **老用户兼容**——localStorage 里已存 `builtin-quick-answer` 的用户不会被强制覆盖（尊重用户已存偏好），但空间切换时会被重置到 smart-reasoning
+5. **兜底对象的 i18n key 别写错**——改 Input-field.vue 兜底对象的 `name` 时，`input` 命名空间下"智能推理"对应的 key 是 `input.agentMode`，**不是** `input.smartReasoning`（后者在 `search` 命名空间，不在 `input` 下）。写错的话下拉里会显示原始 key 名 `input.smartReasoning` 而不是翻译文本
+
+#### 智能体模式相关 i18n key 速查
+
+`input` 命名空间下的 key（zh-CN / en-US）：
+
+| key | zh-CN | en-US | 说明 |
+|---|---|---|---|
+| `input.normalMode` | 快速问答 | Quick Answer | RAG 模式（品牌定制已隐藏） |
+| `input.normalModeDesc` | 基于知识库的 RAG 问答 | Knowledge base RAG Q&A | 描述 |
+| `input.agentMode` | **智能推理** | Smart Reasoning | Agent 模式（品牌定制默认） |
+| `input.agentModeDesc` | 多步思考，深度分析 | Multi-step thinking, deep analysis | 描述 |
+
+> 注意：`smartReasoning` 这个 key 确实存在，但在 `search` 命名空间下（用于搜索页的引擎选择），和这里无关。别搞混。
 
 **验证**：所有 fallback 改完后 grep `\|\| BUILTIN_QUICK_ANSWER_ID`（生产代码）应返回 0 条。
+
+### 3.12 `src/components/AgentSelector.vue`（内置智能体名称透传后端配置）
+
+**背景**：品牌定制后后端可能会修改内置智能体的名称（如 `builtin-smart-reasoning` 改名为"默认智能体"），但前端 `AgentSelector.vue` 的 `builtinAgents` computed 会**无条件覆盖**后端返回的 name/description：
+
+```js
+// 改前：不管后端配了什么名字，强制覆盖成 i18n 硬编码
+return { ...agent, name: t('input.agentMode'), description: t('input.agentModeDesc') };
+```
+
+**结果**：AgentSelector 下拉卡片里永远显示"智能推理"（i18n），永远不会显示后端配置的"默认智能体"。但 Input-field 顶部按钮却正确显示——因为它走的是 `selectedAgent` computed，直接使用 API 原始数据，**没经过** AgentSelector 这层覆盖。同一个内置智能体在两个地方显示不同名字，非常困惑。
+
+**修复**：只有当后端返回空字符串时才 fallback 到 i18n 默认值，否则让后端配置的名字透传：
+
+```diff
+- return { ...agent, name: t('input.normalMode'), description: t('input.normalModeDesc') };
++ return {
++   ...agent,
++   name: agent.name?.trim() || t('input.normalMode'),
++   description: agent.description?.trim() || t('input.normalModeDesc'),
++ };
+
+- return { ...agent, name: t('input.agentMode'), description: t('input.agentModeDesc') };
++ return {
++   ...agent,
++   name: agent.name?.trim() || t('input.agentMode'),
++   description: agent.description?.trim() || t('input.agentModeDesc'),
++ };
+```
+
+两处 builtin 分支（快速问答 + 智能推理）都一样处理。
+
+**为什么不能直接删掉 map 覆盖**：如果上游后端某些环境确实不返回 name（返回空字符串或 null），直接透传会导致下拉里是空的。保留 fallback 是对的，只是不能**无条件覆盖**。
 
 ---
 
@@ -531,8 +578,9 @@ docker-entrypoint.sh text eol=lf
    - 按 3.10 key 3 修改 `createChat.title`（新建对话页欢迎语，zh-CN/zh-TW/ja-JP/ru-RU 需改，en-US/ko-KR 上游已是目标句式）
 8. **功能隐藏配置**：Settings.vue `HIDDEN_SECTIONS` + integrations.ts `INTEGRATION_PREVIEW_ITEMS`
 9. **默认智能体切换为智能推理**（3.11）：所有 fallback 从 `BUILTIN_QUICK_ANSWER_ID` 改到 `BUILTIN_SMART_REASONING_ID`，生产 5 文件 + 测试 2 文件，改完 grep 确认无遗漏
-10. **验证**：启动 dev server，逐个页面检查品牌显示、隐藏功能、登录页布局（无滚动条）、明暗主题吉祥物切换、**默认选中智能推理而非快速问答**
-11. **容器验证**：`docker compose build frontend && docker compose up frontend`，确认不再报 `exec /docker-entrypoint.sh: no such file or directory`
+10. **内置智能体名称透传后端配置**（3.12）：AgentSelector.vue `builtinAgents` computed 改为 `agent.name?.trim() || t(...)`，让后端配置的"默认智能体"能显示到下拉卡片里
+11. **验证**：启动 dev server，逐个页面检查品牌显示、隐藏功能、登录页布局（无滚动条）、明暗主题吉祥物切换、**默认选中智能推理而非快速问答**、**AgentSelector 下拉卡片显示后端配置的名称（如"默认智能体"）而非 i18n 硬编码**
+12. **容器验证**：`docker compose build frontend && docker compose up frontend`，确认不再报 `exec /docker-entrypoint.sh: no such file or directory`
 
 ---
 
@@ -564,6 +612,7 @@ docker-entrypoint.sh text eol=lf
 | 仓库级 CRLF 防御 | `.gitattributes` + `.gitignore` 白名单（3.9，commit `c4329eb`） |
 | 新建对话页欢迎语 | `createChat.title` = 「今天想在 InnoWork 里做点什么？」（3.10 key 3） |
 | 默认智能体 | 智能推理（`builtin-smart-reasoning`），所有 fallback 从快速问答迁移（3.11） |
+| 内置智能体名称透传 | 后端配置的 name/description 优先，空串才 fallback i18n（3.12）；已将内置智能体改名为「默认智能体」 |
 
 ---
 
@@ -580,5 +629,7 @@ docker-entrypoint.sh text eol=lf
 | **只改默认值忘了 fallback** | 智能体默认值不止一个 `defaultSettings.selectedAgentId`——settings getter、auth store 空间重置、agent-mode.ts 的 4 个判断函数、Input-field.vue 兜底对象，全是 `|| BUILTIN_QUICK_ANSWER_ID`，漏改任何一处都会让新用户/切换空间/管线判断回到不存在的快速问答 |
 | **只改生产代码不改测试** | agent-mode.test.mjs 和 settingsStorage.test.mjs 里的 fallback 和默认值必须同步改，否则 `isQuickAnswerAgentId(undefined)` 行为反转导致测试挂掉 |
 | **变量名换了 import 没换** | auth.ts 里把 `BUILTIN_QUICK_ANSWER_ID` 换成 `BUILTIN_SMART_REASONING_ID` 后 import 行必须同步改，否则 TypeScript 报 `找不到名称` |
+| **兜底对象的 i18n key 写错** | `input` 命名空间下智能推理是 `input.agentMode` 不是 `input.smartReasoning`（后者在 `search` 命名空间），写错会显示原始 key 名而非翻译文本，很难一眼看出是 i18n 问题 |
+| **内置智能体名字被前端覆盖** | AgentSelector.vue `builtinAgents` computed 里 `{ ...agent, name: t('input.agentMode') }` 会无条件覆盖后端返回的名字。后端改名成"默认智能体"后下拉卡片还是"智能推理"。必须改成 `agent.name?.trim() \|\| t(...)` 让后端配置优先透传 |
 | **忘了 `.gitattributes`，容器崩** | Windows 上 `core.autocrlf=true` 会把 `*.sh` 转成 CRLF，Docker shebang 解析失败报 `no such file or directory`。**仓库根 `.gitattributes` 必须在任何构建验证之前就位**，不是事后修脚本的事 |
 | **只修脚本不管 `.gitignore`** | 仓库根 `.gitignore` 原 `.*` 规则会吞掉 `.gitattributes`，必须白名单放行 `!.gitattributes`，否则下次 clone 这个文件就没了 |
