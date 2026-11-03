@@ -327,7 +327,7 @@ const syncSettingsRoute = (sectionKey: string) => {
   })
 }
 
-// 品牌定制：不展示 Ollama、InnoWork Cloud 设置页面与 InnoWork Skill、CLI、浏览器插件集成页面
+// 品牌定制：不展示 Ollama、InnuovoWork Cloud 设置页面与 InnuovoWork Skill、CLI、浏览器插件集成页面
 const HIDDEN_SECTIONS = new Set(['ollama', 'weknoracloud', 'integration-claw', 'integration-cli'])
 
 const isSectionSupported = (key: string): boolean => {

@@ -96,7 +96,7 @@
     </div>
 
     <!-- Logo - Top Left -->
-    <img class="page-logo" src="@/assets/img/innowork.png" alt="InnoWork">
+    <img class="page-logo" src="@/assets/img/innuovowork.png" alt="InnuovoWork">
 
     <!-- Center Panel -->
     <main class="login-center">
@@ -260,7 +260,7 @@ import { useAuthStore } from '@/stores/auth'
 import { useI18n } from 'vue-i18n'
 
 // 品牌名(定制占位,替换正式名称时只需改这一处)
-const brandName = 'InnoWork'
+const brandName = 'InnuovoWork'
 
 const router = useRouter()
 const route = useRoute()
