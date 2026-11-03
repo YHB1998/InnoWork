@@ -1,8 +1,15 @@
 <template>
     <div class="dialogue-wrap">
         <div class="dialogue-answers">
-            <div class="dialogue-title" style="--wails-draggable: drag">
-                <span style="--wails-draggable: drag">{{ $t('createChat.title') }}</span>
+            <div class="dialogue-hero">
+                <!-- 云朵玩偶动画(引用自 PI-Desktop 欢迎页吉祥物,GIF 自带挥手动效) -->
+                <div class="mascot-wrap" aria-hidden="true">
+                    <img class="mascot mascot-light" src="@/assets/img/home-mascot-light.gif" alt="" draggable="false">
+                    <img class="mascot mascot-dark" src="@/assets/img/home-mascot-dark.gif" alt="" draggable="false">
+                </div>
+                <div class="dialogue-title" style="--wails-draggable: drag">
+                    <span style="--wails-draggable: drag">{{ $t('createChat.title') }}</span>
+                </div>
             </div>
             <!-- 推荐问题 -->
             <div ref="sqContainerRef" class="suggested-questions-container">
@@ -397,6 +404,42 @@ async function openProjectDir() {
     font-size: var(--app-text-base);
     line-height: 1;
     cursor: pointer;
+}
+
+.dialogue-hero {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+}
+
+.mascot-wrap {
+    width: 100px;
+    height: 100px;
+    flex: 0 0 auto;
+    overflow: hidden;
+    user-select: none;
+}
+
+.mascot {
+    display: none;
+    width: 100px;
+    height: 100px;
+    object-fit: contain;
+    pointer-events: none;
+    -webkit-user-drag: none;
+}
+
+.mascot-light {
+    display: block;
+}
+
+html[theme-mode="dark"] .mascot-light {
+    display: none;
+}
+
+html[theme-mode="dark"] .mascot-dark {
+    display: block;
 }
 
 .dialogue-title {
