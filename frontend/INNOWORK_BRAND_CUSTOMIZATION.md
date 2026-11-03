@@ -13,6 +13,7 @@
 | **新增** | `src/assets/img/innowork.png` | 设计提供 / `frontend-v1` | InnoWork Logo，替换原 `weknora.png` |
 | **新增** | `src/assets/img/home-mascot-light.gif` | `frontend-v1` | 新建对话页吉祥物（亮色模式），GIF 自带挥手动效 |
 | **新增** | `src/assets/img/home-mascot-dark.gif` | `frontend-v1` | 新建对话页吉祥物（暗色模式），GIF 自带挥手动效 |
+| **替换** | `public/favicon.ico` | `frontend-v1` | 浏览器标签页图标，替换原 WeKnora favicon |
 
 > `weknora.png` 保留在项目中，部分未改造的内部组件仍会引用。
 
@@ -389,7 +390,7 @@ export const INTEGRATION_PREVIEW_ITEMS = [
 
 1. **拉取上游新版本代码**（覆盖 frontend 目录）
 2. **对比静态资源**：确认上游是否新增了需要替换的 logo / gif / svg
-3. **复制定制资源**：`innowork.png`、`home-mascot-*.gif` 复制到新项目
+3. **复制定制资源**：`innowork.png`、`home-mascot-*.gif`、`favicon.ico` 复制到新项目
 4. **逐文件应用 Login.vue 修改**：按 3.4 清单改，**注意同时改模板 + 脚本 + CSS + 清理残留**
 5. **逐文件应用其他组件修改**：3.1~3.3、3.5、3.6、3.7
 6. **i18n 品牌替换**（6 个语言文件）：
