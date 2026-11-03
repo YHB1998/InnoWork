@@ -3386,7 +3386,7 @@ export default {
     goToAgentSettings: 'エージェント設定に移動'
   },
   createChat: {
-    title: 'こんにちは、InnoWorkです。あなたのナレッジを、すぐそばに',
+    title: '今日は InnoWork で何をしますか？',
     newSessionTitle: '新しいセッション',
     openProject: 'プロジェクトを選択',
     clearProject: '解除',

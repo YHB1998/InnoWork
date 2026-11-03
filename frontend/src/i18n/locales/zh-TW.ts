@@ -6338,7 +6338,7 @@ export default {
     }
   },
   createChat: {
-    title: 'Hi，我是 InnoWork，讓你的知識觸手可及',
+    title: '今天想在 InnoWork 裡做點什麼？',
     newSessionTitle: '新會話',
     openProject: '選擇專案',
     clearProject: '取消綁定',

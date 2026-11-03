@@ -6337,7 +6337,7 @@ export default {
     }
   },
   createChat: {
-    title: 'Привет, я InnoWork — ваши знания всегда под рукой',
+    title: 'Чем вы хотите заняться в InnoWork сегодня?',
     newSessionTitle: 'Новая сессия',
     openProject: 'Выбрать проект',
     clearProject: 'Снять привязку',

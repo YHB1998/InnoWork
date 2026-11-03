@@ -356,7 +356,88 @@ export const INTEGRATION_PREVIEW_ITEMS = [
 
 > 注意：`INTEGRATION_TABS`（类型定义）保持 7 项不变，只改预览列表。chrome 当前已恢复显示。
 
-### 3.8 `src/i18n/locales/*.ts`（品牌文案定制，6 个语言文件）
+### 3.8 `src/components/UserMenu.vue`（用户弹窗隐藏帮助与 GitHub 按钮）
+
+点击右上角头像弹出的菜单底部，原本有「帮助与文档」和「GitHub（带 star 角标）」两个外链入口，品牌定制时移除。
+
+**模板改动**：删除菜单底部的两个 `.menu-item` 块以及它们上方的分隔线：
+
+```diff
+         <div v-if="authStore.isSystemAdmin" class="menu-item" @click="handleSystemAdmin">
+           <t-icon name="server" class="menu-icon" />
+           <span>{{ $t('settings.navGroups.systemAdministration') }}</span>
+         </div>
+-        <div class="menu-divider"></div>
+-        <div class="menu-item" @click="openDocs">
+-          <t-icon name="help-circle" class="menu-icon" />
+-          <span class="menu-text-with-icon">
+-            <span>{{ $t('general.helpAndDocs') }}</span>
+-            <svg class="menu-external-icon" ... />
+-          </span>
+-        </div>
+-        <div class="menu-item" :title="$t('common.githubStarTip')" @click="openGithub">
+-          <t-icon name="logo-github" class="menu-icon" />
+-          <span class="menu-text-with-icon">
+-            <span>{{ $t('common.github') }}</span>
+-            <t-icon name="star-filled" class="menu-github-star-icon" size="16px" aria-hidden="true" />
+-            <svg class="menu-external-icon" ... />
+-          </span>
+-        </div>
+         <template v-if="!authStore.isLiteMode">
+           <div class="menu-divider"></div>
+           <div class="menu-item danger" @click="handleLogout">
+```
+
+**清理残留**（可选）：
+- 脚本中的 `openDocs()` 与 `openGithub()` 两个函数（L515-L524）变成死代码，可一并删除
+- `.menu-github-star-icon` CSS 样式块（L1078+）也不再被引用，可删
+
+### 3.9 仓库根 `.gitattributes` + `.gitignore`（CRLF 防御）
+
+**背景**：Windows 下 Git `core.autocrlf=true` 会把 `*.sh` 文件从仓库 LF 自动转成 CRLF 再 checkout，Docker build COPY 到容器内后 Linux 内核解析 shebang 失败（`#!/bin/sh\r` → 找不到 `/bin/sh\r`），报 `exec /docker-entrypoint.sh: no such file or directory`。**这不是脚本 BOM/CRLF 的一次性修复，而是仓库级别的防线**——上游拉代码后也必须保留。
+
+**新增** `.gitattributes`（仓库根目录），强制 shell / docker / 源码文件在所有平台保持 LF：
+
+```gitattributes
+# Shell scripts must stay LF so Linux containers execute the shebang correctly.
+*.sh text eol=lf
+*.cmd text eol=lf
+*.ps1 text eol=lf
+
+# Frontend source
+*.vue text eol=lf
+*.ts text eol=lf
+*.tsx text eol=lf
+*.js text eol=lf
+*.json text eol=lf
+*.css text eol=lf
+*.html text eol=lf
+
+# Backend source
+*.go text eol=lf
+*.py text eol=lf
+*.yaml text eol=lf
+*.yml text eol=lf
+*.md text eol=lf
+
+# Docker
+Dockerfile text eol=lf
+docker-entrypoint.sh text eol=lf
+```
+
+**修改** `.gitignore` 白名单——原 `.*` 规则会把 `.gitattributes` 也吞掉，必须显式放行：
+
+```diff
+ # 但不忽略特定隐藏文件和目录
+ !.env.example
+ !.gitignore
++!.gitattributes
+ !.github/
+```
+
+> 已提交到 GitHub 的 commit `c4329eb`（message: `fix(docker): prevent CRLF corruption of shell scripts on Windows`）就是这两项改动的来源。
+
+### 3.10 `src/i18n/locales/*.ts`（品牌文案定制，6 个语言文件）
 
 以下两个 i18n key 在 6 个语言文件中**必须一起改**，是 0.8.3 定制版的品牌文案：
 
@@ -382,6 +463,21 @@ export const INTEGRATION_PREVIEW_ITEMS = [
 | ko-KR | `RAG Q&A, ReAct 에이전트, Wiki 지식베이스 — 대규모 언어 모델 기반 엔터프라이즈 지식 프레임워크` | `AI 어시스턴트와 에이전트로 작업 자동화, 지식 검색, 협업` |
 | ru-RU | `RAG, ReAct-агент и Wiki — корпоративный фреймворк знаний на основе больших моделей` | `Автоматизация задач, поиск знаний и совместная работа с ИИ-помощниками и агентами` |
 
+#### key 3: `createChat.title`（新建对话页欢迎区标题，吉祥物上方）
+
+模板 `creatChat.vue` 里的 `.dialogue-title` 绑定的就是这个 key。上游原版是"自我介绍"式的欢迎语，品牌定制改为"今天想在 InnoWork 里做点什么？"这种行动引导句式，en-US 和 ko-KR 上游已是此句式，其他语言文件需要改。
+
+| 语言 | 原值（0.9.0） | 新值（品牌定制） |
+|---|---|---|
+| zh-CN | `Hi，我是 InnoWork，让你的知识触手可及` | `今天想在 InnoWork 里做点什么？` |
+| zh-TW | `Hi，我是 InnoWork，讓你的知識觸手可及` | `今天想在 InnoWork 裡做點什麼？` |
+| en-US | `What would you like to do in InnoWork today?` | 已是目标句式，保持不变 |
+| ja-JP | `こんにちは、InnoWorkです。あなたのナレッジを、すぐそばに` | `今日は InnoWork で何をしますか？` |
+| ko-KR | `오늘 InnoWork에서 무엇을 할까요?` | 已是目标句式，保持不变 |
+| ru-RU | `Привет, я InnoWork — ваши знания всегда под рукой` | `Чем вы хотите заняться в InnoWork сегодня?` |
+
+> **快速定位**：搜索 `createChat: {` 找到该对象（en-US/ja-JP ~L3388，zh-CN/zh-TW/ko-KR/ru-RU ~L6340），改 `title` 字段。
+
 > **快速定位**：在各语言文件中搜索 `platform: {` 和 `auth: {` 找到对应对象，修改 `subtitle` 字段即可。注意 `auth.subtitle` 在不同语言文件里的位置可能不同——en-US/ja-JP 在文件中部（~L3036），zh-CN/zh-TW/ko-KR/ru-RU 在文件尾部（~L6687）。
 
 ---
@@ -391,13 +487,16 @@ export const INTEGRATION_PREVIEW_ITEMS = [
 1. **拉取上游新版本代码**（覆盖 frontend 目录）
 2. **对比静态资源**：确认上游是否新增了需要替换的 logo / gif / svg
 3. **复制定制资源**：`innowork.png`、`home-mascot-*.gif`、`favicon.ico` 复制到新项目
-4. **逐文件应用 Login.vue 修改**：按 3.4 清单改，**注意同时改模板 + 脚本 + CSS + 清理残留**
-5. **逐文件应用其他组件修改**：3.1~3.3、3.5、3.6、3.7
-6. **i18n 品牌替换**（6 个语言文件）：
+4. **仓库根 `.gitattributes` + `.gitignore`**（3.9）：这是仓库级防线，必须最先应用，否则后续 Docker build 会因为 CRLF 报 `no such file or directory`
+5. **逐文件应用 Login.vue 修改**：按 3.4 清单改，**注意同时改模板 + 脚本 + CSS + 清理残留**
+6. **逐文件应用其他组件修改**：3.1~3.3、3.5、3.6、3.7、3.8
+7. **i18n 品牌替换**（6 个语言文件）：
    - 全局替换 WeKnora → InnoWork（跳过不可替换清单）
-   - 按 3.8 节修改 `platform.subtitle` 和 `auth.subtitle` 两个 key（必须逐文件手动改，因为每个语言新值不同）
-7. **功能隐藏配置**：Settings.vue `HIDDEN_SECTIONS` + integrations.ts `INTEGRATION_PREVIEW_ITEMS`
-8. **验证**：启动 dev server，逐个页面检查品牌显示、隐藏功能、登录页布局（无滚动条）、明暗主题吉祥物切换
+   - 按 3.10 节修改 `platform.subtitle` 和 `auth.subtitle` 两个 key（必须逐文件手动改，因为每个语言新值不同）
+   - 按 3.10 key 3 修改 `createChat.title`（新建对话页欢迎语，zh-CN/zh-TW/ja-JP/ru-RU 需改，en-US/ko-KR 上游已是目标句式）
+8. **功能隐藏配置**：Settings.vue `HIDDEN_SECTIONS` + integrations.ts `INTEGRATION_PREVIEW_ITEMS`
+9. **验证**：启动 dev server，逐个页面检查品牌显示、隐藏功能、登录页布局（无滚动条）、明暗主题吉祥物切换
+10. **容器验证**：`docker compose build frontend && docker compose up frontend`，确认不再报 `exec /docker-entrypoint.sh: no such file or directory`
 
 ---
 
@@ -420,11 +519,14 @@ export const INTEGRATION_PREVIEW_ITEMS = [
 | 品牌名 | InnoWork |
 | 隐藏的设置页 | ollama、weknoracloud、integration-claw、integration-cli |
 | 隐藏的集成预览 | cli、claw（chrome 已恢复显示） |
+| 用户弹窗隐藏入口 | 帮助与文档、GitHub（3.8） |
 | 新增的欢迎页元素 | 云朵吉祥物 GIF（明/暗双主题） |
 | 登录页布局 | 单栏居中（品牌名 + 表单），无 showcase / 轮播 / 特性标签 |
 | 登录页位置 | `login-layout { align-items: flex-start; padding: 10vh 20px 20px }` 防滚动条 |
 | 登录页副标题（品牌名下方） | `platform.subtitle` = 「AI 驱动的智能体工作平台」 |
 | 登录页副标题（表单下方） | `auth.subtitle` = 「用 AI 助手与智能体自动化处理任务、检索知识、协同办公」 |
+| 仓库级 CRLF 防御 | `.gitattributes` + `.gitignore` 白名单（3.9，commit `c4329eb`） |
+| 新建对话页欢迎语 | `createChat.title` = 「今天想在 InnoWork 里做点什么？」（3.10 key 3） |
 
 ---
 
@@ -438,3 +540,5 @@ export const INTEGRATION_PREVIEW_ITEMS = [
 | **用 `align-items: center` + 内容** | 内容多时会超出 viewport 产生滚动条，用 `flex-start` + `padding-top: 10vh` 更安全 |
 | **忘了改 `auth.subtitle`** | 它和 `platform.subtitle` 是两个不同的 key，分别在品牌名下方和表单标题下方，必须同时改 |
 | **`{brand}` 占位符** | `firstTime` / `registerSubtitle` 等 key 已经用 `{brand}` 占位，不要硬编码 InnoWork，方便下次换品牌名 |
+| **忘了 `.gitattributes`，容器崩** | Windows 上 `core.autocrlf=true` 会把 `*.sh` 转成 CRLF，Docker shebang 解析失败报 `no such file or directory`。**仓库根 `.gitattributes` 必须在任何构建验证之前就位**，不是事后修脚本的事 |
+| **只修脚本不管 `.gitignore`** | 仓库根 `.gitignore` 原 `.*` 规则会吞掉 `.gitattributes`，必须白名单放行 `!.gitattributes`，否则下次 clone 这个文件就没了 |
