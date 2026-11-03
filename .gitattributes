@@ -1,0 +1,26 @@
+# Shell scripts must stay LF so Linux containers execute the shebang correctly.
+# Without this, Windows autocrlf=true would convert them to CRLF on checkout,
+# causing Docker containers to fail with "exec /entrypoint.sh: no such file or directory".
+*.sh text eol=lf
+*.cmd text eol=lf
+*.ps1 text eol=lf
+
+# Frontend source
+*.vue text eol=lf
+*.ts text eol=lf
+*.tsx text eol=lf
+*.js text eol=lf
+*.json text eol=lf
+*.css text eol=lf
+*.html text eol=lf
+
+# Backend source
+*.go text eol=lf
+*.py text eol=lf
+*.yaml text eol=lf
+*.yml text eol=lf
+*.md text eol=lf
+
+# Docker
+Dockerfile text eol=lf
+docker-entrypoint.sh text eol=lf
