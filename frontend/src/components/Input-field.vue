@@ -171,7 +171,7 @@ const agentModeButtonRef = ref<HTMLElement>();
 const agentModeDropdownStyle = ref<Record<string, string>>({});
 
 const selectedAgentId = computed({
-  get: () => settingsStore.selectedAgentId || BUILTIN_QUICK_ANSWER_ID,
+  get: () => settingsStore.selectedAgentId || BUILTIN_SMART_REASONING_ID,
   set: (val: string) => settingsStore.selectAgent(val)
 });
 const selectedAgent = computed(() => {
@@ -189,10 +189,10 @@ const selectedAgent = computed(() => {
   const mine = agents.value.find(a => a.id === selectedAgentId.value);
   if (mine) return mine;
   return {
-    id: BUILTIN_QUICK_ANSWER_ID,
-    name: t('input.normalMode'),
+    id: BUILTIN_SMART_REASONING_ID,
+    name: t('input.smartReasoning'),
     is_builtin: true,
-    config: { agent_mode: 'quick-answer' as const }
+    config: { agent_mode: 'smart-reasoning' as const }
   } as CustomAgent;
 });
 const selectedSharedAgent = computed(() => {
@@ -1077,7 +1077,7 @@ watch(
 // 在 enabledAgents 过滤后显示空，由用户在智能体页恢复任意一个）。
 const ensureSelectedAgentNotDisabled = () => {
   if (settingsStore.selectedAgentSourceTenantId) return
-  const currentId = settingsStore.selectedAgentId || BUILTIN_QUICK_ANSWER_ID
+  const currentId = settingsStore.selectedAgentId || BUILTIN_SMART_REASONING_ID
   if (!disabledOwnAgentIds.value.includes(currentId)) return
 
   const isEnabled = (id: string) =>

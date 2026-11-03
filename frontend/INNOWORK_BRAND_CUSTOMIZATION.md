@@ -480,6 +480,41 @@ docker-entrypoint.sh text eol=lf
 
 > **快速定位**：在各语言文件中搜索 `platform: {` 和 `auth: {` 找到对应对象，修改 `subtitle` 字段即可。注意 `auth.subtitle` 在不同语言文件里的位置可能不同——en-US/ja-JP 在文件中部（~L3036），zh-CN/zh-TW/ko-KR/ru-RU 在文件尾部（~L6687）。
 
+### 3.11 默认智能体切换为"智能推理"（隐藏快速问答后的必改项）
+
+品牌定制后快速问答（`builtin-quick-answer`）已被管理员停用/隐藏，用户下拉里只剩智能推理一个内置选项。但代码中有**十几处** fallback 硬编码成 `BUILTIN_QUICK_ANSWER_ID`，导致：
+
+- 新用户 / localStorage 无 `selectedAgentId` → 选中"不存在"的快速问答
+- 切换空间时 `clearTenantScopedClientState` 重置回快速问答
+- `agent-mode.ts` 里判断管线的函数默认走 RAG 管线而非 Agent 管线
+
+**修复**：所有 fallback 统一改为 `BUILTIN_SMART_REASONING_ID`。
+
+#### 需要改的生产文件（5 文件）
+
+| 文件 | 改动 |
+|---|---|
+| `src/stores/settings.ts` | `defaultSettings.selectedAgentId` 初始值 + `isQuickAnswerMode` / `selectedAgentId` getter + `getSelectedAgentId()` method，共 4 处 |
+| `src/stores/auth.ts` | `clearTenantScopedClientState` 里重置 localStorage 的 `selectedAgentId`（同时 `BUILTIN_QUICK_ANSWER_ID` import → `BUILTIN_SMART_REASONING_ID`） |
+| `src/utils/agent-mode.ts` | 4 个函数（`isQuickAnswerAgentId` / `isAgentStreamAgentId` / `customAgentStreamMode` / `reconcileBuiltinAgentMode`）的 fallback，文件重写 |
+| `src/components/Input-field.vue` | `selectedAgentId` computed getter + `selectedAgent` 兜底对象（id/name/agent_mode 一起改）+ `ensureSelectedAgentNotDisabled` 的 `currentId` fallback，共 3 处 |
+
+#### 需要同步改的测试文件（2 文件，避免测试行为不一致挂掉）
+
+| 文件 | 改动 |
+|---|---|
+| `src/stores/settingsStorage.test.mjs` | `reconcileBuiltinAgentMode` fallback + `makeDefaults` 的 `isAgentEnabled`（`false`→`true`）和 `selectedAgentId` |
+| `src/utils/agent-mode.test.mjs` | 3 个函数的 fallback + `isQuickAnswerAgentId(undefined)` 断言从 `true` 改为 `false` |
+
+#### 关键注意点
+
+1. **不要动 `selectAgent` 方法里的显式判断**（L470-474）——那是用户主动选择智能体后的 `isAgentEnabled` 同步，不是 fallback，改了会影响正常切换逻辑
+2. **不要改 `ensureSelectedAgentNotDisabled` 里的兜底优先级**——它本来就是"智能推理 → 快速问答 → 第一个可用"，刚好符合定制后的期望
+3. **auth.ts 的 import 必须同步改**——只换变量名不换 import 会产生 `找不到名称 "BUILTIN_SMART_REASONING_ID"` 的 TypeScript 错误
+4. **老用户兼容**——localStorage 里已存 `builtin-quick-answer` 的用户不会被强制覆盖（尊重用户已存偏好），但空间切换时会被重置到 smart-reasoning
+
+**验证**：所有 fallback 改完后 grep `\|\| BUILTIN_QUICK_ANSWER_ID`（生产代码）应返回 0 条。
+
 ---
 
 ## 四、升级到新版本时的操作顺序
@@ -495,8 +530,9 @@ docker-entrypoint.sh text eol=lf
    - 按 3.10 节修改 `platform.subtitle` 和 `auth.subtitle` 两个 key（必须逐文件手动改，因为每个语言新值不同）
    - 按 3.10 key 3 修改 `createChat.title`（新建对话页欢迎语，zh-CN/zh-TW/ja-JP/ru-RU 需改，en-US/ko-KR 上游已是目标句式）
 8. **功能隐藏配置**：Settings.vue `HIDDEN_SECTIONS` + integrations.ts `INTEGRATION_PREVIEW_ITEMS`
-9. **验证**：启动 dev server，逐个页面检查品牌显示、隐藏功能、登录页布局（无滚动条）、明暗主题吉祥物切换
-10. **容器验证**：`docker compose build frontend && docker compose up frontend`，确认不再报 `exec /docker-entrypoint.sh: no such file or directory`
+9. **默认智能体切换为智能推理**（3.11）：所有 fallback 从 `BUILTIN_QUICK_ANSWER_ID` 改到 `BUILTIN_SMART_REASONING_ID`，生产 5 文件 + 测试 2 文件，改完 grep 确认无遗漏
+10. **验证**：启动 dev server，逐个页面检查品牌显示、隐藏功能、登录页布局（无滚动条）、明暗主题吉祥物切换、**默认选中智能推理而非快速问答**
+11. **容器验证**：`docker compose build frontend && docker compose up frontend`，确认不再报 `exec /docker-entrypoint.sh: no such file or directory`
 
 ---
 
@@ -527,6 +563,7 @@ docker-entrypoint.sh text eol=lf
 | 登录页副标题（表单下方） | `auth.subtitle` = 「用 AI 助手与智能体自动化处理任务、检索知识、协同办公」 |
 | 仓库级 CRLF 防御 | `.gitattributes` + `.gitignore` 白名单（3.9，commit `c4329eb`） |
 | 新建对话页欢迎语 | `createChat.title` = 「今天想在 InnoWork 里做点什么？」（3.10 key 3） |
+| 默认智能体 | 智能推理（`builtin-smart-reasoning`），所有 fallback 从快速问答迁移（3.11） |
 
 ---
 
@@ -540,5 +577,8 @@ docker-entrypoint.sh text eol=lf
 | **用 `align-items: center` + 内容** | 内容多时会超出 viewport 产生滚动条，用 `flex-start` + `padding-top: 10vh` 更安全 |
 | **忘了改 `auth.subtitle`** | 它和 `platform.subtitle` 是两个不同的 key，分别在品牌名下方和表单标题下方，必须同时改 |
 | **`{brand}` 占位符** | `firstTime` / `registerSubtitle` 等 key 已经用 `{brand}` 占位，不要硬编码 InnoWork，方便下次换品牌名 |
+| **只改默认值忘了 fallback** | 智能体默认值不止一个 `defaultSettings.selectedAgentId`——settings getter、auth store 空间重置、agent-mode.ts 的 4 个判断函数、Input-field.vue 兜底对象，全是 `|| BUILTIN_QUICK_ANSWER_ID`，漏改任何一处都会让新用户/切换空间/管线判断回到不存在的快速问答 |
+| **只改生产代码不改测试** | agent-mode.test.mjs 和 settingsStorage.test.mjs 里的 fallback 和默认值必须同步改，否则 `isQuickAnswerAgentId(undefined)` 行为反转导致测试挂掉 |
+| **变量名换了 import 没换** | auth.ts 里把 `BUILTIN_QUICK_ANSWER_ID` 换成 `BUILTIN_SMART_REASONING_ID` 后 import 行必须同步改，否则 TypeScript 报 `找不到名称` |
 | **忘了 `.gitattributes`，容器崩** | Windows 上 `core.autocrlf=true` 会把 `*.sh` 转成 CRLF，Docker shebang 解析失败报 `no such file or directory`。**仓库根 `.gitattributes` 必须在任何构建验证之前就位**，不是事后修脚本的事 |
 | **只修脚本不管 `.gitignore`** | 仓库根 `.gitignore` 原 `.*` 规则会吞掉 `.gitattributes`，必须白名单放行 `!.gitattributes`，否则下次 clone 这个文件就没了 |

@@ -6,7 +6,7 @@ const BUILTIN_QUICK_ANSWER_ID = "builtin-quick-answer";
 const BUILTIN_SMART_REASONING_ID = "builtin-smart-reasoning";
 
 function reconcileBuiltinAgentMode(settings) {
-  const agentId = settings.selectedAgentId || BUILTIN_QUICK_ANSWER_ID;
+  const agentId = settings.selectedAgentId || BUILTIN_SMART_REASONING_ID;
   if (agentId === BUILTIN_QUICK_ANSWER_ID && settings.isAgentEnabled) {
     settings.isAgentEnabled = false;
     return true;
@@ -63,8 +63,8 @@ function loadAndReconcileSettings(defaultSettings) {
 
 function makeDefaults() {
   return {
-    isAgentEnabled: false,
-    selectedAgentId: BUILTIN_QUICK_ANSWER_ID,
+    isAgentEnabled: true,
+    selectedAgentId: BUILTIN_SMART_REASONING_ID,
     selectedTags: [],
     selectedMCPServices: [],
     selectedSkills: [],
