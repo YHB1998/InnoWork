@@ -190,7 +190,7 @@ const selectedAgent = computed(() => {
   if (mine) return mine;
   return {
     id: BUILTIN_SMART_REASONING_ID,
-    name: t('input.smartReasoning'),
+    name: t('input.agentMode'),
     is_builtin: true,
     config: { agent_mode: 'smart-reasoning' as const }
   } as CustomAgent;
