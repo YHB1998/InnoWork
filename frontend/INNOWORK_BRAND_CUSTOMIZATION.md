@@ -592,18 +592,25 @@ return { ...agent, name: t('input.agentMode'), description: t('input.agentModeDe
 +    memory_enabled: false,
 ```
 
-#### 改动 3 — 基础工具默认勾选
+#### 改动 3 — 基础 + 知识库工具默认勾选
 
-「基础」分组共 4 个工具（`thinking` 思考 / `todo_write` 制定计划 / `ask_user` 向用户提问 / `search_conversations` 回顾历史对话），默认全部勾选：
+「基础」分组 4 个工具（`thinking` 思考 / `todo_write` 制定计划 / `ask_user` 向用户提问 / `search_conversations` 回顾历史对话）+「知识库检索（RAG）」分组 4 个工具（`search_knowledge` 检索知识库 / `read_document` 阅读文档 / `list_documents` 浏览文档列表 / `query_knowledge_graph` 查询知识图谱），默认全部勾选：
 
 ```diff
 -    allowed_tools: [] as string[],
 +    // 品牌定制：新建 agent 默认勾选「基础」分组的 4 个工具
-+    // （思考 / 制定计划 / 向用户提问 / 回顾历史对话），省去每次手动勾选。
-+    allowed_tools: ['thinking', 'todo_write', 'ask_user', 'search_conversations'] as string[],
++    // （思考 / 制定计划 / 向用户提问 / 回顾历史对话）以及「知识库检索（RAG）」
++    // 分组的 4 个工具（检索知识库 / 阅读文档 / 浏览文档列表 / 查询知识图谱），
++    // 省去每次手动勾选。
++    allowed_tools: [
++      'thinking', 'todo_write', 'ask_user', 'search_conversations',
++      'search_knowledge', 'read_document', 'list_documents', 'query_knowledge_graph',
++    ] as string[],
 ```
 
 > `thinking` / `todo_write` 会显著增加 token 消耗（上游注释特意默认不勾选）。如果只想默认勾「向用户提问」和「回顾历史对话」，从数组里删掉前两个即可。
+>
+> `query_knowledge_graph` 需要图谱索引（`allOf: ['graph']`）。没有图谱知识库时该卡片会置灰并显示不满足原因，勾选状态仍会随表单保存；运行时由工具注册器按能力过滤，不会真的调用到不可用的工具。`read_document` / `list_documents` 属于辅助工具（`auxiliary`），没有知识库时同样置灰。
 
 **联动逻辑（无需额外改）**：
 - 初始化新建表单时，`if (defaultTypeId && defaultTypeId !== 'custom')` 已显式跳过预设应用，所以 `custom` 不会自动填充系统提示词 / 工具。
@@ -630,8 +637,8 @@ return { ...agent, name: t('input.agentMode'), description: t('input.agentModeDe
 8. **功能隐藏配置**：Settings.vue `HIDDEN_SECTIONS`（含 `system` 版本信息页）+ integrations.ts `INTEGRATION_PREVIEW_ITEMS`
 9. **默认智能体切换为智能推理**（3.11）：所有 fallback 从 `BUILTIN_QUICK_ANSWER_ID` 改到 `BUILTIN_SMART_REASONING_ID`，生产 5 文件 + 测试 2 文件，改完 grep 确认无遗漏
 10. **内置智能体名称透传后端配置**（3.12）：AgentSelector.vue `builtinAgents` computed 改为 `agent.name?.trim() || t(...)`，让后端配置的"默认智能体"能显示到下拉卡片里
-11. **新建智能体默认值定制**（3.13）：`defaultFormData.config` 中 `agent_type` 改 `custom`、`memory_enabled` 改 `false`、`allowed_tools` 改为基础 4 工具
-12. **验证**：启动 dev server，逐个页面检查品牌显示、隐藏功能（含设置里不再出现「版本信息」）、登录页布局（无滚动条）、明暗主题吉祥物切换、**默认选中智能推理而非快速问答**、**AgentSelector 下拉卡片显示后端配置的名称（如"默认智能体"）而非 i18n 硬编码**、**新建智能体时类型默认「自定义」、长期记忆默认关闭、基础工具默认勾选**
+11. **新建智能体默认值定制**（3.13）：`defaultFormData.config` 中 `agent_type` 改 `custom`、`memory_enabled` 改 `false`、`allowed_tools` 改为基础 4 工具 + 知识库检索 4 工具
+12. **验证**：启动 dev server，逐个页面检查品牌显示、隐藏功能（含设置里不再出现「版本信息」）、登录页布局（无滚动条）、明暗主题吉祥物切换、**默认选中智能推理而非快速问答**、**AgentSelector 下拉卡片显示后端配置的名称（如"默认智能体"）而非 i18n 硬编码**、**新建智能体时类型默认「自定义」、长期记忆默认关闭、基础与知识库检索工具默认勾选**
 13. **容器验证**：`docker compose build frontend && docker compose up frontend`，确认不再报 `exec /docker-entrypoint.sh: no such file or directory`
 
 ---
@@ -666,7 +673,7 @@ return { ...agent, name: t('input.agentMode'), description: t('input.agentModeDe
 | 新建对话页欢迎语 | `createChat.title` = 「今天想在 InnuovoWork 里做点什么？」（3.10 key 3） |
 | 默认智能体 | 智能推理（`builtin-smart-reasoning`），所有 fallback 从快速问答迁移（3.11） |
 | 内置智能体名称透传 | 后端配置的 name/description 优先，空串才 fallback i18n（3.12）；已将内置智能体改名为「默认智能体」 |
-| 新建智能体默认值 | 类型「自定义」（`custom`）、长期记忆关闭、基础 4 工具（思考 / 制定计划 / 向用户提问 / 回顾历史对话）默认勾选（3.13） |
+| 新建智能体默认值 | 类型「自定义」（`custom`）、长期记忆关闭、基础 4 工具（思考 / 制定计划 / 向用户提问 / 回顾历史对话）+ 知识库检索 4 工具（检索知识库 / 阅读文档 / 浏览文档列表 / 查询知识图谱）默认勾选（3.13） |
 
 ---
 

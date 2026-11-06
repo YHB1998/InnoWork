@@ -2910,8 +2910,13 @@ const defaultFormData = {
     max_iterations: 10,
     llm_call_timeout: 120,  // 120 seconds
     // 品牌定制：新建 agent 默认勾选「基础」分组的 4 个工具
-    // （思考 / 制定计划 / 向用户提问 / 回顾历史对话），省去每次手动勾选。
-    allowed_tools: ['thinking', 'todo_write', 'ask_user', 'search_conversations'] as string[],
+    // （思考 / 制定计划 / 向用户提问 / 回顾历史对话）以及「知识库检索（RAG）」
+    // 分组的 4 个工具（检索知识库 / 阅读文档 / 浏览文档列表 / 查询知识图谱），
+    // 省去每次手动勾选。
+    allowed_tools: [
+      'thinking', 'todo_write', 'ask_user', 'search_conversations',
+      'search_knowledge', 'read_document', 'list_documents', 'query_knowledge_graph',
+    ] as string[],
     reflection_enabled: false,
     // MCP 服务设置
     mcp_selection_mode: 'none' as 'all' | 'selected' | 'none',
