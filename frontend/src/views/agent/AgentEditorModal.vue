@@ -2909,7 +2909,9 @@ const defaultFormData = {
     // Agent模式设置
     max_iterations: 10,
     llm_call_timeout: 120,  // 120 seconds
-    allowed_tools: [] as string[],
+    // 品牌定制：新建 agent 默认勾选「基础」分组的 4 个工具
+    // （思考 / 制定计划 / 向用户提问 / 回顾历史对话），省去每次手动勾选。
+    allowed_tools: ['thinking', 'todo_write', 'ask_user', 'search_conversations'] as string[],
     reflection_enabled: false,
     // MCP 服务设置
     mcp_selection_mode: 'none' as 'all' | 'selected' | 'none',
@@ -2928,9 +2930,9 @@ const defaultFormData = {
     kb_selection_mode: 'all' as 'all' | 'selected' | 'none',
     knowledge_bases: [] as string[],
     retrieve_kb_only_when_mentioned: false,
-    // 智能推理下的类型预设：新建 agent 时默认给 RAG 问答（最常用场景）。
-    // 编辑既有 agent 时会被 agent 自己保存的 agent_type 覆盖。
-    agent_type: 'rag-qa' as AgentType,
+    // 智能推理下的类型预设：新建 agent 时默认给「自定义」，由用户自行选择
+    // 工具 / 提示词 / 知识库；编辑既有 agent 时会被其保存的 agent_type 覆盖。
+    agent_type: 'custom' as AgentType,
     system_prompt_id: '' as string,
     // 附件上传设置
     image_upload_enabled: false,
@@ -2959,9 +2961,9 @@ const defaultFormData = {
     multi_turn_enabled: false,
     history_turns: 5,
     retain_retrieval_history: false,
-    // 长期记忆：默认跟随空间设置。写 true 与不写等价，只有 false 才会
-    // 让这个智能体单独不读记忆。
-    memory_enabled: true,
+    // 长期记忆：品牌定制后新建 agent 默认关闭，用户需要时再手动打开。
+    // 编辑既有 agent 时会被其保存的值覆盖。
+    memory_enabled: false,
     // 检索策略设置
     embedding_top_k: 10,
     keyword_threshold: 0.3,

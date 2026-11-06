@@ -327,8 +327,9 @@ html[theme-mode="dark"] .mascot-dark {
 **在 `isSectionSupported` 函数之前插入**：
 
 ```ts
-// 品牌定制：不展示 Ollama、WeKnora Cloud 设置页面与 Skill、CLI 集成页面
-const HIDDEN_SECTIONS = new Set(['ollama', 'weknoracloud', 'integration-claw', 'integration-cli'])
+// 品牌定制：不展示 Ollama、WeKnora Cloud 设置页面、Skill / CLI 集成页面，
+// 以及版本信息（系统信息）页面
+const HIDDEN_SECTIONS = new Set(['ollama', 'weknoracloud', 'integration-claw', 'integration-cli', 'system'])
 ```
 
 **在 `isSectionSupported` 函数开头插入检查**：
@@ -340,6 +341,8 @@ const HIDDEN_SECTIONS = new Set(['ollama', 'weknoracloud', 'integration-claw', '
 ```
 
 > 当前保留显示 chrome（浏览器插件）。如后续需要隐藏，把 `'integration-chrome'` 加进 Set 即可。
+>
+> `'system'` 对应「平台 → 版本信息」页（`SystemInfo.vue`）。加入后该导航项不再渲染，且「平台」分组只剩这一项，会整组消失；通过旧链接 `?section=system` 直达时会回退到第一个可见设置页。注意不要误伤系统管理员的「系统设置」页——它的 key 是 `system-global`，不受影响。
 
 ### 3.7 `src/config/integrations.ts`（集成预览隐藏）
 
@@ -563,6 +566,53 @@ return { ...agent, name: t('input.agentMode'), description: t('input.agentModeDe
 
 **为什么不能直接删掉 map 覆盖**：如果上游后端某些环境确实不返回 name（返回空字符串或 null），直接透传会导致下拉里是空的。保留 fallback 是对的，只是不能**无条件覆盖**。
 
+### 3.13 `src/views/agent/AgentEditorModal.vue`（新建智能体默认值定制）
+
+**背景**：上游新建智能体时有三处默认值与品牌定制后的期望不符：类型默认 `rag-qa`（会自动带入 RAG 系统提示词 / 检索工具 / 知识库范围）、长期记忆默认开启、「基础」分组工具默认全部不勾选。定制后统一改为：类型「自定义」、长期记忆关闭、基础工具默认勾选，让新建表单更"干净"，由用户按需开启。
+
+#### 改动 1 — 智能体类型默认「自定义」
+
+```diff
+-    // 智能推理下的类型预设：新建 agent 时默认给 RAG 问答（最常用场景）。
+-    // 编辑既有 agent 时会被 agent 自己保存的 agent_type 覆盖。
+-    agent_type: 'rag-qa' as AgentType,
++    // 智能推理下的类型预设：新建 agent 时默认给「自定义」，由用户自行选择
++    // 工具 / 提示词 / 知识库；编辑既有 agent 时会被其保存的 agent_type 覆盖。
++    agent_type: 'custom' as AgentType,
+```
+
+#### 改动 2 — 长期记忆默认关闭
+
+```diff
+-    // 长期记忆：默认跟随空间设置。写 true 与不写等价，只有 false 才会
+-    // 让这个智能体单独不读记忆。
+-    memory_enabled: true,
++    // 长期记忆：品牌定制后新建 agent 默认关闭，用户需要时再手动打开。
++    // 编辑既有 agent 时会被其保存的值覆盖。
++    memory_enabled: false,
+```
+
+#### 改动 3 — 基础工具默认勾选
+
+「基础」分组共 4 个工具（`thinking` 思考 / `todo_write` 制定计划 / `ask_user` 向用户提问 / `search_conversations` 回顾历史对话），默认全部勾选：
+
+```diff
+-    allowed_tools: [] as string[],
++    // 品牌定制：新建 agent 默认勾选「基础」分组的 4 个工具
++    // （思考 / 制定计划 / 向用户提问 / 回顾历史对话），省去每次手动勾选。
++    allowed_tools: ['thinking', 'todo_write', 'ask_user', 'search_conversations'] as string[],
+```
+
+> `thinking` / `todo_write` 会显著增加 token 消耗（上游注释特意默认不勾选）。如果只想默认勾「向用户提问」和「回顾历史对话」，从数组里删掉前两个即可。
+
+**联动逻辑（无需额外改）**：
+- 初始化新建表单时，`if (defaultTypeId && defaultTypeId !== 'custom')` 已显式跳过预设应用，所以 `custom` 不会自动填充系统提示词 / 工具。
+- `custom` 在 `config/agent_type_presets.yaml` 中是没有 `config:` 块的空预设，因此切换类型时同样不会覆盖任何表单值。
+- 编辑已有智能体时，表单会被该智能体保存的 `agent_type` / `memory_enabled` / `allowed_tools` 覆盖，不受这些默认值影响；旧数据缺 `memory_enabled` 时仍由既有兼容逻辑补成 `true`。
+- 新建分支已把 `keepAllowedToolsUnset` 置为 `false`，基础工具列表会作为显式选择随表单提交，不会被当作"未设置"。
+
+> 注意：这些默认值只在**新建**分支生效，位置都在 `defaultFormData` 里；不要只改下拉/开关的 UI 默认值，否则提交时仍会写入旧值。
+
 ---
 
 ## 四、升级到新版本时的操作顺序
@@ -577,11 +627,12 @@ return { ...agent, name: t('input.agentMode'), description: t('input.agentModeDe
    - 全局替换 WeKnora → InnuovoWork（跳过不可替换清单）
    - 按 3.10 节修改 `platform.subtitle` 和 `auth.subtitle` 两个 key（必须逐文件手动改，因为每个语言新值不同）
    - 按 3.10 key 3 修改 `createChat.title`（新建对话页欢迎语，zh-CN/zh-TW/ja-JP/ru-RU 需改，en-US/ko-KR 上游已是目标句式）
-8. **功能隐藏配置**：Settings.vue `HIDDEN_SECTIONS` + integrations.ts `INTEGRATION_PREVIEW_ITEMS`
+8. **功能隐藏配置**：Settings.vue `HIDDEN_SECTIONS`（含 `system` 版本信息页）+ integrations.ts `INTEGRATION_PREVIEW_ITEMS`
 9. **默认智能体切换为智能推理**（3.11）：所有 fallback 从 `BUILTIN_QUICK_ANSWER_ID` 改到 `BUILTIN_SMART_REASONING_ID`，生产 5 文件 + 测试 2 文件，改完 grep 确认无遗漏
 10. **内置智能体名称透传后端配置**（3.12）：AgentSelector.vue `builtinAgents` computed 改为 `agent.name?.trim() || t(...)`，让后端配置的"默认智能体"能显示到下拉卡片里
-11. **验证**：启动 dev server，逐个页面检查品牌显示、隐藏功能、登录页布局（无滚动条）、明暗主题吉祥物切换、**默认选中智能推理而非快速问答**、**AgentSelector 下拉卡片显示后端配置的名称（如"默认智能体"）而非 i18n 硬编码**
-12. **容器验证**：`docker compose build frontend && docker compose up frontend`，确认不再报 `exec /docker-entrypoint.sh: no such file or directory`
+11. **新建智能体默认值定制**（3.13）：`defaultFormData.config` 中 `agent_type` 改 `custom`、`memory_enabled` 改 `false`、`allowed_tools` 改为基础 4 工具
+12. **验证**：启动 dev server，逐个页面检查品牌显示、隐藏功能（含设置里不再出现「版本信息」）、登录页布局（无滚动条）、明暗主题吉祥物切换、**默认选中智能推理而非快速问答**、**AgentSelector 下拉卡片显示后端配置的名称（如"默认智能体"）而非 i18n 硬编码**、**新建智能体时类型默认「自定义」、长期记忆默认关闭、基础工具默认勾选**
+13. **容器验证**：`docker compose build frontend && docker compose up frontend`，确认不再报 `exec /docker-entrypoint.sh: no such file or directory`
 
 ---
 
@@ -591,7 +642,7 @@ return { ...agent, name: t('input.agentMode'), description: t('input.agentModeDe
 |---|---|
 | `src/assets/theme/theme.css` | 上游和定制版都是绿色品牌色主题，完全一致 |
 | `src/views/settings/WeKnoraCloudSettings.vue` | 已在 HIDDEN_SECTIONS 中隐藏，无需改内部文案 |
-| `src/views/settings/SystemInfo.vue` | i18n 已覆盖所有显示文本 |
+| `src/views/settings/SystemInfo.vue` | 版本信息页已通过 HIDDEN_SECTIONS 隐藏（3.6），i18n 也已覆盖显示文本，无需改动 |
 | `src/assets/img/` 下其他图标 | 功能图标，不涉及品牌 |
 
 ---
@@ -603,7 +654,7 @@ return { ...agent, name: t('input.agentMode'), description: t('input.agentModeDe
 | 上游基准版本 | WeKnora 0.9.0 |
 | 品牌名 | **InnuovoWork**（2026-11-03 从 InnoWork 改名） |
 | Logo 资产 | `innuovowork.png`（透明底、迷你绿色四角星 + 深蓝 Innuovo + 品牌绿 Work，1718×283px），menu.vue 引用宽度 130px |
-| 隐藏的设置页 | ollama、weknoracloud、integration-claw、integration-cli |
+| 隐藏的设置页 | ollama、weknoracloud、integration-claw、integration-cli、system（版本信息，3.6） |
 | 隐藏的集成预览 | cli、claw（chrome 已恢复显示） |
 | 用户弹窗隐藏入口 | 帮助与文档、GitHub（3.8） |
 | 新增的欢迎页元素 | 云朵吉祥物 GIF（明/暗双主题） |
@@ -615,6 +666,7 @@ return { ...agent, name: t('input.agentMode'), description: t('input.agentModeDe
 | 新建对话页欢迎语 | `createChat.title` = 「今天想在 InnuovoWork 里做点什么？」（3.10 key 3） |
 | 默认智能体 | 智能推理（`builtin-smart-reasoning`），所有 fallback 从快速问答迁移（3.11） |
 | 内置智能体名称透传 | 后端配置的 name/description 优先，空串才 fallback i18n（3.12）；已将内置智能体改名为「默认智能体」 |
+| 新建智能体默认值 | 类型「自定义」（`custom`）、长期记忆关闭、基础 4 工具（思考 / 制定计划 / 向用户提问 / 回顾历史对话）默认勾选（3.13） |
 
 ---
 
@@ -635,3 +687,6 @@ return { ...agent, name: t('input.agentMode'), description: t('input.agentModeDe
 | **内置智能体名字被前端覆盖** | AgentSelector.vue `builtinAgents` computed 里 `{ ...agent, name: t('input.agentMode') }` 会无条件覆盖后端返回的名字。后端改名成"默认智能体"后下拉卡片还是"智能推理"。必须改成 `agent.name?.trim() \|\| t(...)` 让后端配置优先透传 |
 | **忘了 `.gitattributes`，容器崩** | Windows 上 `core.autocrlf=true` 会把 `*.sh` 转成 CRLF，Docker shebang 解析失败报 `no such file or directory`。**仓库根 `.gitattributes` 必须在任何构建验证之前就位**，不是事后修脚本的事 |
 | **只修脚本不管 `.gitignore`** | 仓库根 `.gitignore` 原 `.*` 规则会吞掉 `.gitattributes`，必须白名单放行 `!.gitattributes`，否则下次 clone 这个文件就没了 |
+| **隐藏版本信息却误伤系统设置** | 「版本信息」的 section key 是 `system`，「系统设置」是 `system-global`。往 `HIDDEN_SECTIONS` 里加 `system` 不会影响系统管理员页；反过来只删导航项不加 Set 的话，`?section=system` 仍能直接访问到页面 |
+| **只改下拉/开关默认值不改 `defaultFormData`** | 新建智能体的类型、长期记忆、基础工具都来自 `defaultFormData.config`（`agent_type` / `memory_enabled` / `allowed_tools`），不是组件的默认 prop。只改 UI 默认值会导致提交时仍写入旧配置；同时确认 `custom` 仍在 `config/agent_type_presets.yaml` 中（否则下拉显示原始 id 且无法回选） |
+| **默认勾了思考 / 制定计划还抱怨 token 高** | 基础 4 工具里的 `thinking`、`todo_write` 每轮都会额外消耗 token；如果不需要默认勾选，从 `defaultFormData.config.allowed_tools` 数组里移除即可，不要在上游注释里改语义 |

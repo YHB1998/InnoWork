@@ -327,8 +327,9 @@ const syncSettingsRoute = (sectionKey: string) => {
   })
 }
 
-// 品牌定制：不展示 Ollama、InnuovoWork Cloud 设置页面与 InnuovoWork Skill、CLI、浏览器插件集成页面
-const HIDDEN_SECTIONS = new Set(['ollama', 'weknoracloud', 'integration-claw', 'integration-cli'])
+// 品牌定制：不展示 Ollama、InnuovoWork Cloud 设置页面、InnuovoWork Skill、CLI、浏览器插件集成页面，
+// 以及版本信息（系统信息）页面
+const HIDDEN_SECTIONS = new Set(['ollama', 'weknoracloud', 'integration-claw', 'integration-cli', 'system'])
 
 const isSectionSupported = (key: string): boolean => {
   if (HIDDEN_SECTIONS.has(key)) return false
