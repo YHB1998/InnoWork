@@ -1403,7 +1403,7 @@ const resizeSidebar = (delta: number, keyboard: boolean) => {
         overflow: hidden;
 
         .logo {
-            width: 108px;
+            width: 130px;
             height: auto;
         }
 

@@ -102,6 +102,22 @@ i18n 中对应的键值改为：
 +<img class="logo" src="@/assets/img/innuovowork.png" alt="InnuovoWork">
 ```
 
+**样式改动 — Logo 宽度定制为 130px**（`.aside_box > .logo_row > .logo_box > .logo`）：
+
+```less
+.logo_box {
+    ...
+    .logo {
+        width: 130px;   // 品牌定制尺寸（上游为 108px），Logo 视觉上偏小时改这里
+        height: auto;
+    }
+}
+```
+
+> 尺寸依据：`innuovowork.png` 原图 1718×283（宽高比约 6.07:1），130px 宽对应高约 21px，仍在 `.logo_row { height: 39px }` 的行内，不会挤压右侧的助手 / 搜索 / 折叠按钮，也不会溢出侧栏顶部。
+> 调大时注意 `.logo_box` 有 `overflow: hidden`，宽度过大会裁掉 `Work` 尾部文字；暗色模式的反白规则（`html[theme-mode="dark"] .aside_box .logo_box .logo`）只改 `filter`，不影响尺寸，无需同步修改。
+> 折叠态（`uiStore.sidebarCollapsed`）不渲染这个 `<img>`，改宽度只影响展开态侧栏。
+
 ### 3.4 `src/views/auth/Login.vue`（登录页）
 
 **模板改动 1 — Logo 替换**：
