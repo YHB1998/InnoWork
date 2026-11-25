@@ -1,4 +1,4 @@
-export default {
+﻿export default {
   localBrowser: {
     pipOpen: 'プレビューを別ウィンドウで表示',
     pipReturn: '会話内のプレビューに戻す',
@@ -338,7 +338,7 @@ export default {
     }
   },
   createChat: {
-    title: 'こんにちは、WeKnoraです。あなたのナレッジを、すぐそばに',
+    title: '今日は InnuovoWork で何をしますか？',
     newSessionTitle: '新しいセッション',
     openProject: 'プロジェクトを選択',
     clearProject: '解除',

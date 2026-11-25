@@ -1,4 +1,4 @@
-export default {
+﻿export default {
   upload: {
     uploadDocument: '문서 업로드',
     uploadFolder: '폴더 업로드',
@@ -106,9 +106,9 @@ export default {
           name: 'MarkItDown',
           desc: 'Microsoft MarkItDown 변환기 (PDF/Office/HTML 등)'
         },
-        weknoracloud: {
-          name: 'WeKnora Cloud',
-          desc: 'WeKnora Cloud를 통한 문서 파싱'
+        InnuovoWorkCloud: {
+          name: 'InnuovoWork Cloud',
+          desc: 'InnuovoWork Cloud를 통한 문서 파싱'
         },
         paddleocr_vl_cloud: {
           name: 'PaddleOCR-VL Cloud',
@@ -884,7 +884,7 @@ export default {
       systemActor: '시스템',
       actorWithAPIKey: '{actor} · API Key · {name}',
       actorAPIKey: 'API Key · {name}',
-      viaAssistant: 'WeKnora 어시스턴트 경유',
+      viaAssistant: 'InnuovoWork 어시스턴트 경유',
       knowledgeBase: '지식 베이스',
       countItems: '{count}개 항목',
       titleWithCount: '{title} 외 {count}개',

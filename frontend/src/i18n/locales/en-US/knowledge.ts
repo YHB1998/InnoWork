@@ -1,4 +1,4 @@
-export default {
+﻿export default {
   upload: {
     uploadDocument: 'Upload Document',
     uploadFolder: 'Upload Folder',
@@ -818,7 +818,7 @@ export default {
       systemActor: 'System',
       actorWithAPIKey: '{actor} · API Key · {name}',
       actorAPIKey: 'API Key · {name}',
-      viaAssistant: 'Via WeKnora Assistant',
+      viaAssistant: 'Via InnuovoWork Assistant',
       knowledgeBase: 'Knowledge base',
       countItems: '{count} items',
       titleWithCount: '{title} and {count} more',
@@ -1690,9 +1690,9 @@ export default {
           name: 'PaddleOCR-VL Cloud',
           desc: 'PaddleOCR-VL Cloud API'
         },
-        weknoracloud: {
-          name: 'WeKnora Cloud',
-          desc: 'Document parsing via WeKnora Cloud'
+        InnuovoWorkCloud: {
+          name: 'InnuovoWork Cloud',
+          desc: 'Document parsing via InnuovoWork Cloud'
         },
         markitdown: {
           name: 'MarkItDown',

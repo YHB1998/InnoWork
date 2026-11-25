@@ -332,7 +332,17 @@ const syncSettingsRoute = (sectionKey: string) => {
   })
 }
 
+// 品牌定制：不展示 Ollama、WeKnora Cloud 设置页面、Skill / CLI 集成页面，
+// 以及版本信息（系统信息）页面
+const HIDDEN_SECTIONS = new Set(['ollama', 'weknoracloud', 'integration-claw', 'integration-cli', 'system'])
+
+// 品牌定制：「模型管理」（models）与「数据与扩展」的向量数据库引擎 / 解析引擎 /
+// 存储引擎 / 沙箱配置页面仅系统管理员（is_system_admin）可见，空间 Owner / Admin
+// 不再显示入口，直接输入 ?section=... 也会命中无权限面板
+const SYSTEM_ADMIN_ONLY_SECTIONS = new Set(['models', 'vectorstore', 'parser', 'storage', 'sandbox'])
+
 const isSectionSupported = (key: string): boolean => {
+  if (HIDDEN_SECTIONS.has(key)) return false
   if (isIntegrationSection(key)) {
     return deploymentCapabilities.isSupported(
       INTEGRATION_TAB_CAPABILITY[integrationTabFromSection(key)],
@@ -345,6 +355,9 @@ const isSectionSupported = (key: string): boolean => {
 }
 
 const canSeeSection = (key: string): boolean => {
+  if (SYSTEM_ADMIN_ONLY_SECTIONS.has(key)) {
+    return authStore.isSystemAdmin
+  }
   if (isIntegrationSection(key)) {
     const min = INTEGRATION_TAB_MIN_ROLE[integrationTabFromSection(key)]
     if (!min) return true

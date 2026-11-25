@@ -1,6 +1,6 @@
-export default {
+﻿export default {
   assistant: {
-    title: 'WeKnora 助手',
+    title: 'InnuovoWork 助手',
     newConversation: '新對話',
     history: '歷史對話',
     untitledConversation: '未命名對話',
@@ -14,10 +14,10 @@ export default {
     },
     welcomeTitle: '有什麼可以幫你？',
     agentWelcomeDesc: '可以檢查這個智慧代理的設定、調整模型或查看它能檢索的知識庫。',
-    welcomeDesc: '我可以解答 WeKnora 的使用問題，整理知識與文件，幫你設定智慧代理、工具和自動化。',
+    welcomeDesc: '我可以解答 InnuovoWork 的使用問題，整理知識與文件，幫你設定智慧代理、工具和自動化。',
     help: {
       label: '助手說明',
-      title: 'WeKnora 助手能做什麼',
+      title: 'InnuovoWork 助手能做什麼',
       identity: '助手以你的身份工作。它能看到和修改的範圍，與你在這個空間裡的角色一致，不會超出你的權限。',
       page: '打開後會附帶目前頁面，可以據此梳理內容、設定智慧代理和自動化，或代為填寫表單。它不會替你點擊按鈕或儲存。',
       access: '輸入框下方可以切換權限：唯讀、修改前確認、自動執行。刪除始終需要你確認。管理員限制的最高等級無法突破。'
@@ -106,9 +106,9 @@ export default {
         q2: '連上之後要怎樣把模型加到空間裡？',
         q3: 'Ollama 連不上時通常要檢查什麼？'
       },
-      weknoracloud: {
-        description: '我可以說明 WeKnora Cloud 能提供哪些模型，以及怎樣開通和選用。',
-        q1: 'WeKnora Cloud 能提供哪些模型？',
+      InnuovoWorkCloud: {
+        description: '我可以說明 InnuovoWork Cloud 能提供哪些模型，以及怎樣開通和選用。',
+        q1: 'InnuovoWork Cloud 能提供哪些模型？',
         q2: '怎樣開通或繫結 Cloud 帳號？',
         q3: 'Cloud 模型和我自己接入的模型怎麼選？'
       },
@@ -233,14 +233,14 @@ export default {
         q3: '有沒有現成的請求範例？'
       },
       'integration-mcpserver': {
-        description: '我可以說明怎樣把 WeKnora 作為 MCP 服務提供出去，以及會暴露哪些工具。',
-        q1: '怎樣把 WeKnora 作為 MCP 服務提供出去？',
+        description: '我可以說明怎樣把 InnuovoWork 作為 MCP 服務提供出去，以及會暴露哪些工具。',
+        q1: '怎樣把 InnuovoWork 作為 MCP 服務提供出去？',
         q2: '外部用戶端要怎樣連線？',
         q3: '這個服務會暴露哪些工具？'
       },
       'integration-cli': {
         description: '我可以指導你安裝並登入 CLI，並列出常用的知識庫和對話命令。',
-        q1: '怎樣安裝並登入 WeKnora CLI？',
+        q1: '怎樣安裝並登入 InnuovoWork CLI？',
         q2: 'CLI 能做哪些知識庫和對話操作？',
         q3: '最常用的幾條命令是什麼？'
       },
@@ -251,8 +251,8 @@ export default {
         q3: '擴充功能裡選取的內容會發到哪裡？'
       },
       'integration-claw': {
-        description: '我可以說明怎樣把 WeKnora 接到 Claw，以及需要安裝哪個技能。',
-        q1: '怎樣把 WeKnora 接到 Claw？',
+        description: '我可以說明怎樣把 InnuovoWork 接到 Claw，以及需要安裝哪個技能。',
+        q1: '怎樣把 InnuovoWork 接到 Claw？',
         q2: '需要安裝哪個技能？',
         q3: '連上之後能在 Claw 裡做什麼？'
       }
@@ -406,7 +406,7 @@ export default {
       documentSummary: '這篇文件有哪些關鍵結論？',
       failedDocuments: '這個知識庫有哪些解析失敗的文件？',
       recentActivity: '最近上傳或更新了哪些文件？',
-      formats: 'WeKnora 支援哪些文件格式？',
+      formats: 'InnuovoWork 支援哪些文件格式？',
       createWiki: '怎樣建立 Wiki 知識庫？',
       agents: '這些智慧代理分別適合回答什麼問題？',
       messageSources: '這則回答的依據是什麼？',
@@ -418,7 +418,7 @@ export default {
       modelSetup: '我還需要設定哪些模型？',
       mcpSetup: '怎樣接入一個 MCP 服務？',
       releaseHighlights: '目前版本主要更新了哪些內容？',
-      gettingStarted: '第一次使用 WeKnora，應該先設定什麼？',
+      gettingStarted: '第一次使用 InnuovoWork，應該先設定什麼？',
       workflow: '知識庫、智慧代理和自動化該怎麼搭配使用？',
       knowledgeOverview: '這些知識庫分別適合查哪些內容？',
       knowledgeType: '文件、FAQ 和 Wiki，我該怎麼選？',
@@ -488,9 +488,9 @@ export default {
   automation: {
     conversationNotice: '此對話由自動化任務執行，無法手動傳送訊息。請在上方處理待審批事項。',
     title: '自動化',
-    description: '讓 WeKnora 助手按排程以你的身分執行任務，結果與待審批事項會通知你。',
+    description: '讓 InnuovoWork 助手按排程以你的身分執行任務，結果與待審批事項會通知你。',
     add: '新增自動化',
-    addHint: '也可以直接請 WeKnora 助手幫你建立',
+    addHint: '也可以直接請 InnuovoWork 助手幫你建立',
     paused: '已暫停',
     scheduleEnded: '已結束',
     scheduleEndedHint: '一次性排程已結束。可立即執行，或修改執行時間後恢復。',
@@ -542,7 +542,7 @@ export default {
       sections: {
         basic: {
           title: '基本資訊',
-          desc: '任務由 WeKnora 助手執行。需要其他智慧代理時，請在任務中寫明委派對象與工作。'
+          desc: '任務由 InnuovoWork 助手執行。需要其他智慧代理時，請在任務中寫明委派對象與工作。'
         },
         schedule: {
           title: '執行時間',
@@ -1235,8 +1235,8 @@ export default {
       wait_agent: '等待智慧體',
       openPage: '開啟頁面',
       viewPage: '查看頁面',
-      searchWeKnoraDocs: '搜尋產品文件',
-      readWeKnoraDoc: '閱讀產品文件',
+      searchInnuovoWorkDocs: '搜尋產品文件',
+      readInnuovoWorkDoc: '閱讀產品文件',
       readPage: '查看目前頁面',
       selectTab: '切換標籤',
       fillPage: '填寫頁面'
@@ -1514,7 +1514,7 @@ export default {
       failed: '操作失敗',
       meta: '附加資訊'
     },
-    weknoraDocs: {
+    InnuovoWorkDocs: {
       pages: '{count} 篇文件',
       hits: '符合 {count} 個章節',
       empty: '沒有符合的文件',
@@ -1682,7 +1682,7 @@ export default {
     },
     hostApproval: {
       titleDelete: '刪除檔案前需要你確認',
-      titleDenied: 'WeKnora 想要存取以下目錄',
+      titleDenied: 'InnuovoWork 想要存取以下目錄',
       titleGeneric: '需要你確認',
       command: '命令',
       cwd: '目錄',

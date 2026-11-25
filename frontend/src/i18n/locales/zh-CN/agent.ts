@@ -1,6 +1,6 @@
-export default {
+﻿export default {
   assistant: {
-    title: 'WeKnora 助手',
+    title: 'InnuovoWork 助手',
     newConversation: '新对话',
     history: '历史对话',
     untitledConversation: '未命名对话',
@@ -14,10 +14,10 @@ export default {
     },
     welcomeTitle: '有什么可以帮你？',
     agentWelcomeDesc: '可以检查这个智能体的配置、调整模型或查看它能检索的知识库。',
-    welcomeDesc: '我可以解答 WeKnora 的使用问题，整理知识与文档，帮你配置智能体、工具和自动化。',
+    welcomeDesc: '我可以解答 InnuovoWork 的使用问题，整理知识与文档，帮你配置智能体、工具和自动化。',
     help: {
       label: '助手说明',
-      title: 'WeKnora 助手能做什么',
+      title: 'InnuovoWork 助手能做什么',
       identity: '助手以你的身份工作。它能看到和修改的范围，与你在这个空间里的角色一致，不会超出你的权限。',
       page: '打开后会附带当前页面，可以据此梳理内容、配置智能体和自动化，或代为填写表单。它不会替你点击按钮或保存。',
       access: '输入框下方可以切换权限：只读、修改前确认、自动执行。删除始终需要你确认。管理员限制的最高等级无法突破。'
@@ -106,9 +106,9 @@ export default {
         q2: '连上之后要怎样把模型加到空间里？',
         q3: 'Ollama 连不上时通常要检查什么？'
       },
-      weknoracloud: {
-        description: '我可以说明 WeKnora Cloud 能提供哪些模型，以及怎样开通和选用。',
-        q1: 'WeKnora Cloud 能提供哪些模型？',
+      InnuovoWorkCloud: {
+        description: '我可以说明 InnuovoWork Cloud 能提供哪些模型，以及怎样开通和选用。',
+        q1: 'InnuovoWork Cloud 能提供哪些模型？',
         q2: '怎样开通或绑定 Cloud 账号？',
         q3: 'Cloud 模型和我自己接入的模型怎么选？'
       },
@@ -233,14 +233,14 @@ export default {
         q3: '有没有现成的请求示例？'
       },
       'integration-mcpserver': {
-        description: '我可以说明怎样把 WeKnora 作为 MCP 服务提供出去，以及会暴露哪些工具。',
-        q1: '怎样把 WeKnora 作为 MCP 服务提供出去？',
+        description: '我可以说明怎样把 InnuovoWork 作为 MCP 服务提供出去，以及会暴露哪些工具。',
+        q1: '怎样把 InnuovoWork 作为 MCP 服务提供出去？',
         q2: '外部客户端要怎样连接？',
         q3: '这个服务会暴露哪些工具？'
       },
       'integration-cli': {
         description: '我可以指导你安装并登录 CLI，并列出常用的知识库和对话命令。',
-        q1: '怎样安装并登录 WeKnora CLI？',
+        q1: '怎样安装并登录 InnuovoWork CLI？',
         q2: 'CLI 能做哪些知识库和对话操作？',
         q3: '最常用的几条命令是什么？'
       },
@@ -251,8 +251,8 @@ export default {
         q3: '扩展里选中的内容会发到哪里？'
       },
       'integration-claw': {
-        description: '我可以说明怎样把 WeKnora 接到 Claw，以及需要安装哪个技能。',
-        q1: '怎样把 WeKnora 接到 Claw？',
+        description: '我可以说明怎样把 InnuovoWork 接到 Claw，以及需要安装哪个技能。',
+        q1: '怎样把 InnuovoWork 接到 Claw？',
         q2: '需要安装哪个技能？',
         q3: '连上之后能在 Claw 里做什么？'
       }
@@ -406,7 +406,7 @@ export default {
       documentSummary: '这篇文档有哪些关键结论？',
       failedDocuments: '这个知识库有哪些解析失败的文档？',
       recentActivity: '最近上传或更新了哪些文档？',
-      formats: 'WeKnora 支持哪些文档格式？',
+      formats: 'InnuovoWork 支持哪些文档格式？',
       createWiki: '怎样创建 Wiki 知识库？',
       agents: '这些智能体分别适合回答什么问题？',
       messageSources: '这个回答的依据是什么？',
@@ -418,7 +418,7 @@ export default {
       modelSetup: '我还需要配置哪些模型？',
       mcpSetup: '怎样接入一个 MCP 服务？',
       releaseHighlights: '当前版本主要更新了哪些内容？',
-      gettingStarted: '第一次使用 WeKnora，应该先配置什么？',
+      gettingStarted: '第一次使用 InnuovoWork，应该先配置什么？',
       workflow: '知识库、智能体和自动化该怎么配合使用？',
       knowledgeOverview: '这些知识库分别适合查哪些内容？',
       knowledgeType: '文档、FAQ 和 Wiki，我该怎么选？',
@@ -488,9 +488,9 @@ export default {
   automation: {
     conversationNotice: '此会话由自动化任务运行，不能手动发送消息。请在上方处理待审批事项。',
     title: '自动化',
-    description: '让 WeKnora 助手按计划以你的身份执行任务，结果和待审批事项会通知你。',
+    description: '让 InnuovoWork 助手按计划以你的身份执行任务，结果和待审批事项会通知你。',
     add: '新建自动化',
-    addHint: '也可以直接让 WeKnora 助手帮你创建',
+    addHint: '也可以直接让 InnuovoWork 助手帮你创建',
     paused: '已暂停',
     scheduleEnded: '已结束',
     scheduleEndedHint: '一次性计划已结束。可立即运行，或修改运行时间后恢复。',
@@ -542,7 +542,7 @@ export default {
       sections: {
         basic: {
           title: '基本信息',
-          desc: '任务由 WeKnora 助手执行。需要其他智能体时，请在任务中写明委派对象和工作。'
+          desc: '任务由 InnuovoWork 助手执行。需要其他智能体时，请在任务中写明委派对象和工作。'
         },
         schedule: {
           title: '运行时间',
@@ -1235,8 +1235,8 @@ export default {
       wait_agent: '等待智能体',
       openPage: '打开页面',
       viewPage: '查看页面',
-      searchWeKnoraDocs: '搜索产品文档',
-      readWeKnoraDoc: '阅读产品文档',
+      searchInnuovoWorkDocs: '搜索产品文档',
+      readInnuovoWorkDoc: '阅读产品文档',
       readPage: '查看当前页面',
       selectTab: '切换标签',
       fillPage: '填写页面'
@@ -1514,7 +1514,7 @@ export default {
       failed: '操作失败',
       meta: '附加信息'
     },
-    weknoraDocs: {
+    InnuovoWorkDocs: {
       pages: '{count} 篇文档',
       hits: '匹配 {count} 个章节',
       empty: '没有匹配的文档',
@@ -1682,7 +1682,7 @@ export default {
     },
     hostApproval: {
       titleDelete: '删除文件前需要你确认',
-      titleDenied: 'WeKnora 想要访问以下目录',
+      titleDenied: 'InnuovoWork 想要访问以下目录',
       titleGeneric: '需要你确认',
       command: '命令',
       cwd: '目录',

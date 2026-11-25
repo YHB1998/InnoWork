@@ -1,4 +1,4 @@
-export default {
+﻿export default {
   documentProgress: {
     queueView: 'Queue tasks',
     title: 'Document and Wiki progress',
@@ -71,16 +71,16 @@ export default {
     loadingInfo: 'Loading information...',
     retry: 'Retry',
     versionLabel: 'App Version',
-    versionDescription: 'Version of the application service (weknora-app)',
+    versionDescription: 'Version of the application service (InnuovoWork-app)',
     frontendVersionLabel: 'UI Version',
-    frontendVersionDescription: 'Build version of the UI (weknora-ui)',
+    frontendVersionDescription: 'Build version of the UI (InnuovoWork-ui)',
     versionMismatch: 'Mismatch with app version',
     buildTimeLabel: 'Build Time',
     buildTimeDescription: 'Time when the system was built',
     goVersionLabel: 'Go Version',
     goVersionDescription: 'Go language version used by the backend',
     docreaderVersionLabel: 'Docreader Version',
-    docreaderVersionDescription: 'Build version of the current document parsing service (weknora-docreader)',
+    docreaderVersionDescription: 'Build version of the current document parsing service (InnuovoWork-docreader)',
     startedAtLabel: 'Service started at',
     startedAtDescription: 'When the current backend process last started',
     uptimeLabel: 'Uptime',

@@ -1,4 +1,4 @@
-export default {
+﻿export default {
   localBrowser: {
     pipOpen: '미리보기 팝업 열기',
     pipReturn: '대화 내 미리보기로 돌아가기',
@@ -360,7 +360,7 @@ export default {
     attachmentStillProcessing: '첨부 파일 {name}을(를) 아직 분석 중입니다'
   },
   createChat: {
-    title: '안녕하세요, WeKnora입니다 — 당신의 지식을 손끝에',
+    title: '오늘 InnuovoWork에서 무엇을 할까요?',
     newSessionTitle: '새 세션',
     openProject: '프로젝트 선택',
     clearProject: '바인딩 해제',

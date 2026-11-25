@@ -1,4 +1,4 @@
-export default {
+﻿export default {
   initialization: {
     skip: 'Skip',
     next: 'Next'
@@ -52,11 +52,11 @@ export default {
     haveAccount: 'Already have an account?',
     backToLogin: 'Back to Login',
     loginHint: 'Sign in to continue, or create an account below if this is your first time.',
-    firstTime: 'New to WeKnora?',
+    firstTime: 'New to InnuovoWork?',
     registerSuccess: 'Registration successful. Please sign in',
     registerFailed: 'Registration failed',
-    subtitle: 'RAG Q&A, ReAct Agent and Wiki — an LLM-powered enterprise knowledge framework',
-    registerSubtitle: 'Create your account and start using WeKnora',
+    subtitle: 'Automate tasks, retrieve knowledge and collaborate with AI assistants and agents',
+    registerSubtitle: 'Create your account and start using InnuovoWork',
     emailPlaceholder: 'Enter email address',
     passwordPlaceholder: 'Enter password',
     confirmPasswordPlaceholder: 'Enter password again',

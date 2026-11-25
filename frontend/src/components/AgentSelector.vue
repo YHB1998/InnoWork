@@ -253,10 +253,18 @@ const builtinAgents = computed(() => {
   const apiBuiltins = agentsList.value.filter(a => a.is_builtin);
   return apiBuiltins.map(agent => {
     if (agent.id === BUILTIN_QUICK_ANSWER_ID) {
-      return { ...agent, name: t('input.normalMode'), description: t('input.normalModeDesc') };
+      return {
+        ...agent,
+        name: agent.name?.trim() || t('input.normalMode'),
+        description: agent.description?.trim() || t('input.normalModeDesc'),
+      };
     }
     if (agent.id === BUILTIN_SMART_REASONING_ID) {
-      return { ...agent, name: t('input.agentMode'), description: t('input.agentModeDesc') };
+      return {
+        ...agent,
+        name: agent.name?.trim() || t('input.agentMode'),
+        description: agent.description?.trim() || t('input.agentModeDesc'),
+      };
     }
     return agent;
   });

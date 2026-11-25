@@ -60,7 +60,7 @@ import { formatLocalizedList } from '@/utils/format-list';
 import { SKILL_ICON, type MentionItem, type MentionItemType, type MentionRequestItem } from '@/types/mention';
 import { toolboxLocation } from '@/config/toolbox';
 import { supportedLevels, levelLabelKey, levelFromLegacy, clampLevel, type ReasoningLevel } from '@/utils/reasoningEffort';
-import { customAgentStreamMode } from '@/utils/agent-mode';
+import { customAgentStreamMode, resolveFallbackAgentId } from '@/utils/agent-mode';
 import { isVoiceInputSupported, useVoiceInput, type VoiceInputError } from '@/composables/useVoiceInput';
 import { createHoldToTalk, voiceHotkeyLabel } from '@/utils/voiceHotkey';
 
@@ -173,7 +173,7 @@ const agentModeButtonRef = ref<HTMLElement>();
 const agentModeDropdownStyle = ref<Record<string, string>>({});
 
 const selectedAgentId = computed({
-  get: () => settingsStore.selectedAgentId || BUILTIN_QUICK_ANSWER_ID,
+  get: () => settingsStore.selectedAgentId || BUILTIN_SMART_REASONING_ID,
   set: (val: string) => settingsStore.selectAgent(val)
 });
 const selectedAgent = computed(() => {
@@ -191,10 +191,10 @@ const selectedAgent = computed(() => {
   const mine = agents.value.find(a => a.id === selectedAgentId.value);
   if (mine) return mine;
   return {
-    id: BUILTIN_QUICK_ANSWER_ID,
+    id: BUILTIN_SMART_REASONING_ID,
     name: t('input.normalMode'),
     is_builtin: true,
-    config: { agent_mode: 'quick-answer' as const }
+    config: { agent_mode: 'smart-reasoning' as const }
   } as CustomAgent;
 });
 const selectedSharedAgent = computed(() => {
@@ -1083,7 +1083,24 @@ watch(
 // 在 enabledAgents 过滤后显示空，由用户在智能体页恢复任意一个）。
 const ensureSelectedAgentNotDisabled = () => {
   if (settingsStore.selectedAgentSourceTenantId) return
-  const currentId = settingsStore.selectedAgentId || BUILTIN_QUICK_ANSWER_ID
+  const currentId = settingsStore.selectedAgentId || BUILTIN_SMART_REASONING_ID
+
+  // === 1. 共享智能体自动识别 ===
+  // env 指定的默认 agent 可能是跨空间共享过来的。先查 own agents 列表，
+  // 找不到再查 sharedAgents —— 匹配到就补 sourceTenantId，让后端从
+  // 源空间解析这个 agent 的模型配置/知识库/MCP。
+  const iAmOwner = agents.value.some((a: any) => a.id === currentId)
+  if (!iAmOwner) {
+    const shared = orgStore.sharedAgents?.find((s: any) => s.agent?.id === currentId)
+    if (shared?.agent && shared.source_tenant_id) {
+      // 直接写字段，绕过 selectAgent 里重置 KB/文件的逻辑
+      settingsStore.settings.selectedAgentSourceTenantId = String(shared.source_tenant_id)
+      localStorage.setItem('WeKnora_settings', JSON.stringify(settingsStore.settings))
+      return
+    }
+  }
+
+  // === 2. 停用纠偏（仅限当前空间 own/builtin agent）===
   if (!disabledOwnAgentIds.value.includes(currentId)) return
 
   const isEnabled = (id: string) =>

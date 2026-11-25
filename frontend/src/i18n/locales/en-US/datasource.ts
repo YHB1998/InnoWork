@@ -1,4 +1,4 @@
-export default {
+﻿export default {
   mcpSettings: {
     addUsageInstructions: 'Add usage instructions',
     noUsageInstructions: 'No usage instructions yet',
@@ -212,7 +212,7 @@ export default {
     welcomeMessageDesc: 'Shown in the embed chat before the visitor sends their first message; leave blank to hide',
     showSuggestedQuestions: 'Suggested questions',
     showSuggestedQuestionsDesc: 'Show starter prompts before the first visitor message, from agent config and linked knowledge bases',
-    originsHint: 'Enter the host websites allowed to embed this channel (A), not the WeKnora address (B). One full origin per line, e.g. https://shop.example.com; at least one required. Supports *.example.com.',
+    originsHint: 'Enter the host websites allowed to embed this channel (A), not the InnuovoWork address (B). One full origin per line, e.g. https://shop.example.com; at least one required. Supports *.example.com.',
     originsRequired: 'At least one allowed origin is required',
     originsInvalid: 'Invalid origin: {origin}',
     originsWildcardProd: 'Wildcard origin \'*\' is not allowed in production',
@@ -270,10 +270,10 @@ export default {
     allowFileUpload: 'Show file upload',
     allowFileUploadDesc: 'When enabled, visitors can upload images and document attachments. Requires the bound agent to support image upload.',
     webhookUrl: 'Webhook URL',
-    webhookUrlPlaceholder: 'https://your-server.example.com/weknora/embed-events',
-    webhookUrlDesc: 'Optional. WeKnora POSTs message_sent / message_received events to this HTTPS endpoint.',
+    webhookUrlPlaceholder: 'https://your-server.example.com/InnuovoWork/embed-events',
+    webhookUrlDesc: 'Optional. InnuovoWork POSTs message_sent / message_received events to this HTTPS endpoint.',
     webhookSecret: 'Webhook secret',
-    webhookSecretPlaceholder: 'HMAC-SHA256 secret (X-WeKnora-Signature header)',
+    webhookSecretPlaceholder: 'HMAC-SHA256 secret (X-InnuovoWork-Signature header)',
     webhookSecretKeep: 'Leave blank to keep the saved secret',
     webhookSecretDesc: 'Optional. When set, request bodies are signed for verification on your server.',
     agentWebSearchDisabledHint: 'This agent does not have web search enabled. Visitors will not see the web search button until you enable it in agent settings.',
@@ -674,7 +674,7 @@ export default {
   },
   integrations: {
     cli: {
-      title: 'WeKnora CLI',
+      title: 'InnuovoWork CLI',
       subtitle: 'Manage knowledge bases and documents, search content, and ask questions from your terminal. Connect scripts and AI tools through the CLI or MCP.',
       docs: 'CLI documentation',
       docsHint: 'Installation and complete command reference',
@@ -682,13 +682,13 @@ export default {
       installTitle: 'Install the CLI',
       installDesc: 'Build from source with Git and Go 1.26+. This macOS / Linux example updates PATH for the current terminal only. For regular use, place the binary in a directory on PATH.',
       connectTitle: 'Connect to this server',
-      connectDesc: 'Create and activate a profile named weknora, then sign in with your email and password. If that profile already exists, choose another name and update the MCP example to match.',
+      connectDesc: 'Create and activate a profile named InnuovoWork, then sign in with your email and password. If that profile already exists, choose another name and update the MCP example to match.',
       verifyTitle: 'Verify the connection',
       verifyDesc: 'Check server and authentication status, then list the knowledge bases your account can access.',
       commandsTitle: 'Common commands',
       commandsDesc: 'Replace KB_ID with a knowledge base ID and adapt the file path, query, and question. Uploaded documents must finish processing before they can be searched.',
       mcpTitle: 'Connect an MCP client',
-      mcpDesc: 'After signing in, add this configuration to an MCP client that supports stdio. If the client cannot find weknora, set command to the absolute path of the binary.',
+      mcpDesc: 'After signing in, add this configuration to an MCP client that supports stdio. If the client cannot find InnuovoWork, set command to the absolute path of the binary.',
       copy: 'Copy',
       copied: 'Copied'
     },
@@ -855,7 +855,7 @@ export default {
       capabilityMessageHistory: 'Message history',
       capabilityMessageHistoryHint: 'Let this key search workspace chat history and read chat-history stats. It does not grant workspace configuration access.',
       capabilityManageModels: 'Manage models',
-      capabilityManageModelsHint: 'Manage model definitions, credentials, connectivity checks, and WeKnoraCloud credentials.',
+      capabilityManageModelsHint: 'Manage model definitions, credentials, connectivity checks, and InnuovoWorkCloud credentials.',
       capabilityManageMcpServices: 'Manage MCP services',
       capabilityManageMcpServicesHint: 'Manage MCP services, credentials, tool approval policies, and OAuth state for this principal.',
       capabilityManageDatasources: 'Manage data sources',
@@ -902,14 +902,14 @@ export default {
       directWarning: 'Direct user ID trusts the caller-supplied header. Use only for trusted server-to-server calls.',
       directWarningDetail: 'Anyone with the API key can change the user ID header to impersonate another external user and reuse or hijack that user\'s MCP OAuth authorization. Do not use this from browsers or untrusted clients; use Signed token for end-user apps.',
       signedRecommended: 'Recommended for user-facing apps: your backend signs a short-lived HS256 JWT for the external user.',
-      signedFlowDetail: 'Keep the HMAC secret only on WeKnora and your trusted backend—never put it in requests or ship it to browsers. The request header carries the JWT string signed with that secret (it changes on each issuance or after expiry), not the secret itself. JWT must include sub (external user ID), tenant_id, aud=weknora, and exp (max 24h lifetime).',
+      signedFlowDetail: 'Keep the HMAC secret only on InnuovoWork and your trusted backend—never put it in requests or ship it to browsers. The request header carries the JWT string signed with that secret (it changes on each issuance or after expiry), not the secret itself. JWT must include sub (external user ID), tenant_id, aud=InnuovoWork, and exp (max 24h lifetime).',
       directHeader: 'User ID header',
       requireDirectHeader: 'Require user ID header',
       requireDirectHeaderDesc: 'When enabled, API Key requests without the user ID header are rejected; when disabled, all requests are treated as the whole workspace with no per-user distinction.',
       tokenHeader: 'Token header',
       tokenHeaderDesc: 'Clients send the backend-signed JWT in this fixed header.',
       hmacSecret: 'HMAC secret',
-      hmacSecretDesc: 'Same secret stored in WeKnora; used only on your backend to sign JWTs—never send it as a request header.',
+      hmacSecretDesc: 'Same secret stored in InnuovoWork; used only on your backend to sign JWTs—never send it as a request header.',
       secretConfigured: 'Secret configured (not shown again); enter a new value to rotate',
       secretSavedCopyHint: 'Secret saved. Copy it to your backend now — you will not be able to view it again after leaving this page.',
       generateSecret: 'Generate secret',
@@ -918,7 +918,7 @@ export default {
       hmacSecretResetConfirmOk: 'Reset',
       hmacSecretResetConfirmCancel: 'Cancel',
       tokenSignExample: 'Backend JWT signing example (Go)',
-      signedRequestStep0: '# 0. Sign JWT on your backend (HS256, aud=weknora, sub=user id, tenant_id={tenantId}, exp<=24h)',
+      signedRequestStep0: '# 0. Sign JWT on your backend (HS256, aud=InnuovoWork, sub=user id, tenant_id={tenantId}, exp<=24h)',
       signedRequestStep0Hint: '#    Put the JWT in {headerName} — not the HMAC secret',
       requestExampleCreateSession: '# 1. Create a session',
       requestExampleAgentChat: '# 2. Agent chat (SSE; replace <session_id> with the id from step 1)',
@@ -983,7 +983,7 @@ export default {
     },
     chrome: {
       title: 'Knowledge Assistant',
-      subtitle: 'For self-hosted WeKnora: ask questions in a sidebar, clip web pages, and save Markdown notes into your knowledge bases while you browse.',
+      subtitle: 'For self-hosted InnuovoWork: ask questions in a sidebar, clip web pages, and save Markdown notes into your knowledge bases while you browse.',
       capabilitiesTitle: 'Core capabilities',
       capabilities: {
         qa: {
@@ -1017,7 +1017,7 @@ export default {
         },
         port: {
           title: 'Desktop: fixed port (recommended)',
-          desc: 'On WeKnora Desktop, set a fixed API port (e.g. 37841) in API Info so the URL stays stable across restarts.'
+          desc: 'On InnuovoWork Desktop, set a fixed API port (e.g. 37841) in API Info so the URL stays stable across restarts.'
         },
         install: {
           title: 'Install the extension',
@@ -1036,8 +1036,8 @@ export default {
       storeMeta: 'Chrome Web Store · v1.0.0'
     },
     claw: {
-      title: 'WeKnora Skill',
-      subtitle: 'Import documents and run hybrid retrieval (vector + keyword) via the WeKnora REST API—for uploads, URL imports, Markdown entries, and cross-KB search.',
+      title: 'InnuovoWork Skill',
+      subtitle: 'Import documents and run hybrid retrieval (vector + keyword) via the InnuovoWork REST API—for uploads, URL imports, Markdown entries, and cross-KB search.',
       capabilitiesTitle: 'Skill capabilities',
       capabilities: {
         upload: {
@@ -1069,7 +1069,7 @@ export default {
         },
         env: {
           title: 'Configure environment',
-          desc: 'Set WEKNORA_BASE_URL and WEKNORA_API_KEY in your shell or ~/.zshrc / ~/.bashrc. The example below uses your current API base URL—replace the API Key with your actual value.'
+          desc: 'Set InnuovoWork_BASE_URL and InnuovoWork_API_KEY in your shell or ~/.zshrc / ~/.bashrc. The example below uses your current API base URL—replace the API Key with your actual value.'
         },
         install: {
           title: 'Install the skill',
@@ -1084,10 +1084,10 @@ export default {
       copy: 'Copy',
       copyEnvSuccess: 'Environment example copied',
       copyCmdSuccess: 'Install command copied',
-      ecosystemNote: 'Skill hosted on ClawHub ({\'@\'}lyingbug/weknora). See the ClawHub page for full API docs and version history.',
+      ecosystemNote: 'Skill hosted on ClawHub ({\'@\'}lyingbug/InnuovoWork). See the ClawHub page for full API docs and version history.',
       installCta: 'Open ClawHub',
-      installCtaHint: 'Install WeKnora Skill · opens in a new tab',
-      hubMeta: 'ClawHub · {\'@\'}lyingbug/weknora · MIT-0'
+      installCtaHint: 'Install InnuovoWork Skill · opens in a new tab',
+      hubMeta: 'ClawHub · {\'@\'}lyingbug/InnuovoWork · MIT-0'
     }
   }
 }

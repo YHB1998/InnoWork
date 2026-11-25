@@ -1,4 +1,4 @@
-<template>
+﻿﻿<template>
   <div class="login-layout">
     <div class="animated-bg">
       <div class="knowledge-node node-1">
@@ -95,85 +95,16 @@
       </svg>
     </div>
 
-    <!-- Logo - Top Left -->
-    <a href="https://github.com/Tencent/WeKnora" target="_blank" class="header-logo" :title="$t('common.github')">
-      <img src="@/assets/img/weknora.png" alt="WeKnora" class="logo-image" />
-    </a>
+    <!-- Brand Logo - Top Left -->
+    <img class="page-logo" src="@/assets/img/innuovowork.png" alt="InnuovoWork">
 
-    <!-- Header Links - Top Right -->
-    <div class="header-links">
-      <a href="https://weknora.weixin.qq.com" target="_blank" class="header-link" :title="$t('common.website')">
-        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"
-          stroke-linecap="round">
-          <circle cx="12" cy="12" r="10" />
-          <line x1="2" y1="12" x2="22" y2="12" />
-          <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z" />
-        </svg>
-        <span class="link-text">{{ $t('common.website') }}</span>
-      </a>
-
-      <a href="https://github.com/Tencent/WeKnora" target="_blank" class="header-link" :title="$t('common.info')">
-        <svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor">
-          <path
-            d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z" />
-        </svg>
-        <span class="link-text">GitHub</span>
-      </a>
-
-      <div class="language-switch">
-        <button @click="toggleLanguageMenu" class="header-link" :title="currentLangOption?.label">
-          <span class="lang-flag-icon">{{ currentLangOption?.flag }}</span>
-          <span class="link-text">{{ currentLangOption?.shortLabel }}</span>
-          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
-            stroke-linecap="round">
-            <polyline points="6 9 12 15 18 9" />
-          </svg>
-        </button>
-
-        <!-- Language Dropdown -->
-        <div v-if="showLanguageMenu" class="language-dropdown">
-          <div v-for="lang in languageOptions" :key="lang.value" @click="selectLanguage(lang.value)"
-            class="language-option" :class="{ active: currentLanguage === lang.value }">
-            <span class="lang-flag">{{ lang.flag }}</span>
-            <span class="lang-label">{{ lang.label }}</span>
-            <span v-if="currentLanguage === lang.value" class="check-icon">✓</span>
-          </div>
-        </div>
+    <main class="login-center">
+      <!-- Brand - 文字品牌名 -->
+      <div class="brand">
+        <h1 class="brand-name">{{ brandName }}</h1>
+        <p class="brand-tagline">{{ $t('platform.subtitle') }}</p>
       </div>
-    </div>
 
-    <!-- Left Showcase Section -->
-    <div class="showcase-section">
-      <div class="showcase-content">
-        <p class="showcase-subtitle">{{ $t('platform.subtitle') }}</p>
-        <p class="showcase-description">{{ $t('platform.description') }}</p>
-
-        <div class="feature-tags">
-          <span class="tag">{{ $t('platform.rag') }}</span>
-          <span class="tag">{{ $t('platform.agent') }}</span>
-          <span class="tag">{{ $t('platform.wiki') }}</span>
-          <span class="tag">{{ $t('platform.hybridSearch') }}</span>
-        </div>
-
-        <!-- Swiper Carousel -->
-        <div class="carousel-container">
-          <swiper :modules="modules" :slides-per-view="1" :loop="true" :autoplay="{
-            delay: 4000,
-            disableOnInteraction: false,
-          }" :effect="'fade'" :fade-effect="{ crossFade: true }"
-            :pagination="{ clickable: true, dynamicBullets: false }" :speed="800" class="screenshot-swiper">
-            <swiper-slide v-for="(slide, index) in slides" :key="index">
-              <div class="slide-content">
-                <img :src="slide.image" :alt="slide.title" class="slide-image" />
-              </div>
-            </swiper-slide>
-          </swiper>
-        </div>
-      </div>
-    </div>
-
-    <!-- Right Form Section -->
-    <div class="form-section">
       <div class="form-panel">
         <!-- Login Card -->
         <div class="form-card" v-if="!isRegisterMode">
@@ -235,21 +166,6 @@
               </t-button>
             </t-form>
 
-            <!-- Features list -->
-            <div class="login-features">
-              <div class="feature-item">
-                <span class="feature-icon">✓</span>
-                <span class="feature-text">{{ $t('platform.multimodalParsing') }}</span>
-              </div>
-              <div class="feature-item">
-                <span class="feature-icon">✓</span>
-                <span class="feature-text">{{ $t('platform.hybridSearchEngine') }}</span>
-              </div>
-              <div class="feature-item">
-                <span class="feature-icon">✓</span>
-                <span class="feature-text">{{ $t('platform.ragQandA') }}</span>
-              </div>
-            </div>
           </div>
         </div>
 
@@ -314,25 +230,10 @@
               </a>
             </div>
 
-            <!-- Features list for register -->
-            <div class="login-features">
-              <div class="feature-item">
-                <span class="feature-icon">✓</span>
-                <span class="feature-text">{{ $t('platform.independentTenant') }}</span>
-              </div>
-              <div class="feature-item">
-                <span class="feature-icon">✓</span>
-                <span class="feature-text">{{ $t('platform.fullApiAccess') }}</span>
-              </div>
-              <div class="feature-item">
-                <span class="feature-icon">✓</span>
-                <span class="feature-text">{{ $t('platform.knowledgeBaseManagement') }}</span>
-              </div>
-            </div>
           </div>
         </div>
       </div>
-    </div>
+    </main>
   </div>
 </template>
 
@@ -344,11 +245,6 @@ import { useRoleLabel } from '@/composables/useRoleLabel'
 import { notifyLoginSuccess } from '@/utils/loginNotify'
 import { canRegister } from './registrationPolicy'
 import { newPasswordRules } from '@/utils/passwordPolicy'
-import { Swiper, SwiperSlide } from 'swiper/vue'
-import { Autoplay, EffectFade, Pagination } from 'swiper/modules'
-import 'swiper/css'
-import 'swiper/css/effect-fade'
-import 'swiper/css/pagination'
 import {
   login,
   register,
@@ -366,44 +262,14 @@ import { normalizeMainLocale, setI18nLanguage } from '@/i18n'
 import { useI18n } from 'vue-i18n'
 import { getApiBaseUrl } from '@/utils/api-base'
 
-// Import screenshot images
-import screenshot1 from '@/assets/img/screenshot-1.svg'
-import screenshot2 from '@/assets/img/screenshot-2.svg'
-import screenshot3 from '@/assets/img/screenshot-3.svg'
-import screenshot4 from '@/assets/img/screenshot-4.svg'
+// 品牌名(定制占位,替换正式名称时只需改这一处)
+const brandName = 'InnuovoWork'
 
 const router = useRouter()
 const route = useRoute()
 const authStore = useAuthStore()
 const { t, tm, locale } = useI18n()
 const { formatRole, roleIcon } = useRoleLabel()
-
-// Swiper modules
-const modules = [Autoplay, EffectFade, Pagination]
-
-// Carousel slides data
-const slides = computed(() => [
-  {
-    image: screenshot4,
-    title: t('platform.carousel.agenticRagTitle'),
-    description: t('platform.carousel.agenticRagDesc')
-  },
-  {
-    image: screenshot2,
-    title: t('platform.carousel.hybridSearchTitle'),
-    description: t('platform.carousel.hybridSearchDesc')
-  },
-  {
-    image: screenshot3,
-    title: t('platform.carousel.wikiTitle'),
-    description: t('platform.carousel.wikiDesc')
-  },
-  {
-    image: screenshot1,
-    title: t('platform.carousel.smartDocRetrievalTitle'),
-    description: t('platform.carousel.smartDocRetrievalDesc')
-  }
-])
 
 // Form references
 const formRef = ref()
@@ -513,41 +379,77 @@ const toggleMode = () => {
   })
 }
 
-// Toggle language menu
-const toggleLanguageMenu = () => {
-  showLanguageMenu.value = !showLanguageMenu.value
-}
+// 登录页强制中文 + 检查已登录/lite setup
+onMounted(async () => {
+  // 未显式保存过语言偏好时,登录页强制使用简体中文
+  if (!localStorage.getItem('locale')) {
+    locale.value = 'zh-CN'
+  }
 
-// Select language
-const selectLanguage = async (lang: string) => {
-  showLanguageMenu.value = false
-  const requested = normalizeMainLocale(lang)
-  try {
-    const applied = await setI18nLanguage(requested)
-    if (applied === requested) {
-      MessagePlugin.success(t('language.languageSaved'))
+  // Share-link landing: ?token=xxx switches the form into invite-
+  // register mode before any other auto-flow (logged-in redirect /
+  // auto-setup / OIDC) gets a chance to redirect. Resolution failure
+  // surfaces inline; the user can still log in normally if they
+  // already have an account. We check this BEFORE the isLoggedIn
+  // redirect so an existing session doesn't bounce the user to
+  // /platform (and possibly back to /login if the session is stale),
+  // dropping the invite token along the way.
+  const tokenFromQuery = String(route.query.token || '').trim()
+  if (tokenFromQuery) {
+    inviteToken.value = tokenFromQuery
+    inviteLookupLoading.value = true
+    // 1. 先校验 token：无效/过期则停在登录页报错，不进注册模式。
+    try {
+      const resp = await getInvitationByToken(tokenFromQuery)
+      if (resp.success && resp.data) {
+        inviteLookup.value = resp.data
+      } else {
+        inviteLookupError.value = resp.message || t('inviteRegister.invalidBody')
+        loadOIDCConfig()
+        loadAuthConfig()
+        return
+      }
+    } catch {
+      inviteLookupError.value = t('inviteRegister.invalidBody')
+      loadOIDCConfig()
+      loadAuthConfig()
+      return
+    } finally {
+      inviteLookupLoading.value = false
     }
-  } catch (err) {
-    console.error('[WeKnora] Failed to switch language:', err)
-    MessagePlugin.error(t('common.failed'))
+
+    // 2. 已登录则直接兑换 token 进入空间（三种模式通用）。
+    if (authStore.isLoggedIn && (await authStore.refreshFromAuthMe())) {
+      await acceptAndEnter(tokenFromQuery)
+      return
+    }
+
+    // 3. Only enabled registration modes may create an invited account.
+    await loadAuthConfig()
+    isRegisterMode.value = registrationEnabled.value
+    loadOIDCConfig()
+    return
   }
-}
 
-// Close language menu when clicking outside
-const handleClickOutside = (event: MouseEvent) => {
-  const target = event.target as HTMLElement
-  if (!target.closest('.language-switch')) {
-    showLanguageMenu.value = false
+  if (authStore.isLoggedIn) {
+    router.replace('/platform/knowledge-bases')
+    return
   }
-}
 
-// Add click outside listener
-onMounted(() => {
-  document.addEventListener('click', handleClickOutside)
-})
+  localStorage.removeItem('weknora_auto_setup_failed')
+  try {
+    const response = await autoSetup()
+    if (response.success) {
+      authStore.setLiteMode(true)
+      await persistLoginResponse(response)
+      return
+    }
+  } catch {
+    // Auto-setup may be unavailable outside the native Lite shell.
+  }
 
-onBeforeUnmount(() => {
-  document.removeEventListener('click', handleClickOutside)
+  loadOIDCConfig()
+  loadAuthConfig()
 })
 
 const persistLoginResponse = async (response: any, skipRedirect = false) => {
@@ -839,9 +741,12 @@ onMounted(async () => {
   display: flex;
   width: 100%;
   min-height: 100%;
-  overflow: hidden;
+  overflow-x: hidden;
   position: relative;
+  align-items: flex-start;
+  padding-top: 120px;
   background: linear-gradient(225deg, #022c22 0%, #064e3b 15%, #065f46 25%, #047857 38%, #059669 50%, #07C05F 65%, #10B981 78%, #34D399 90%, #6EE7B7 100%);
+  box-sizing: border-box;
 
   &::before {
     content: '';
@@ -854,6 +759,57 @@ onMounted(async () => {
       radial-gradient(circle at 80% 50%, rgba(255, 255, 255, 0.04) 0%, transparent 50%);
     pointer-events: none;
   }
+}
+
+/* Brand Logo - 左上固定 */
+.page-logo {
+  position: fixed;
+  top: 32px;
+  left: 48px;
+  z-index: 100;
+  width: 140px;
+  height: auto;
+  filter: brightness(0) invert(1);
+  opacity: 0.98;
+  user-select: none;
+  pointer-events: none;
+}
+
+/* 居中主容器 */
+.login-center {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  max-width: 520px;
+  margin: 0 auto;
+  padding: 0 24px 60px;
+  box-sizing: border-box;
+}
+
+/* 品牌文案块 */
+.brand {
+  text-align: center;
+  margin-bottom: 28px;
+  color: #fff;
+}
+
+.brand-name {
+  font-size: 44px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  margin: 0 0 6px 0;
+  font-family: var(--app-font-family);
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+
+.brand-tagline {
+  font-size: 16px;
+  opacity: 0.85;
+  margin: 0;
+  font-family: var(--app-font-family);
 }
 
 .animated-bg {
@@ -1065,265 +1021,12 @@ onMounted(async () => {
   }
 }
 
-/* Left Showcase Section */
-.showcase-section {
-  flex: 0 0 52%;
-  display: flex;
-  align-items: flex-end;
-  padding: 100px 30px 100px 50px;
-  box-sizing: border-box;
-  position: relative;
-}
-
-.showcase-content {
-  width: 100%;
-  max-width: 600px;
-  position: relative;
-  z-index: 2;
-  display: flex;
-  flex-direction: column;
-  margin-bottom: 60px;
-}
-
-.showcase-subtitle {
-  margin-top: 0;
-  font-size: 22px;
-  color: rgba(255, 255, 255, 0.95);
-  margin: 0 0 8px 0;
-  font-family: var(--app-font-family);
-  line-height: 1.4;
-  font-weight: 500;
-}
-
-.showcase-description {
-  font-size: var(--app-text-lg);
-  color: rgba(255, 255, 255, 0.8);
-  margin: 0 0 28px 0;
-  font-family: var(--app-font-family);
-  line-height: 1.5;
-}
-
-.feature-tags {
-  display: flex;
-  gap: 12px;
-  margin-bottom: 40px;
-  flex-wrap: wrap;
-}
-
-.tag {
-  display: inline-block;
-  padding: 8px 20px;
-  background: rgba(255, 255, 255, 0.2);
-  border-radius: 20px;
-  color: var(--td-text-color-anti);
-  font-size: var(--app-text-base);
-  font-weight: 500;
-  font-family: var(--app-font-family);
-}
-
-/* Carousel */
-.carousel-container {
-  width: 100%;
-  margin-top: 48px;
-}
-
-.screenshot-swiper {
-  width: 100%;
-  border-radius: 16px;
-  overflow: hidden;
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
-  padding-bottom: 40px;
-
-  :deep(.swiper-wrapper) {
-    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
-  }
-
-  :deep(.swiper-pagination) {
-    bottom: 15px !important;
-    z-index: 10;
-  }
-
-  :deep(.swiper-pagination-bullet) {
-    width: 10px;
-    height: 10px;
-    background: rgba(255, 255, 255, 0.5);
-    opacity: 1;
-    transition: all var(--app-motion-slow) ease;
-    margin: 0 6px !important;
-  }
-
-  :deep(.swiper-pagination-bullet-active) {
-    background: var(--td-bg-color-container);
-    width: 28px;
-    border-radius: 5px;
-  }
-}
-
-.slide-content {
-  width: 100%;
-  height: 100%;
-  background: var(--td-bg-color-container);
-  border-radius: 16px;
-  overflow: hidden;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.slide-image {
-  width: 100%;
-  height: 100%;
-  display: block;
-  object-fit: contain;
-}
-
-/* Right Form Section */
-.form-section {
-  flex: 0 0 48%;
-  display: flex;
-  align-items: flex-end;
-  justify-content: center;
-  padding: 112px 50px 100px 30px;
-  box-sizing: border-box;
-  position: relative;
-}
-
 .form-panel {
   width: 100%;
   max-width: 480px;
   margin-bottom: 60px;
   position: relative;
   z-index: 2;
-}
-
-.header-logo {
-  position: fixed;
-  top: 32px;
-  left: 50px;
-  z-index: 100;
-  cursor: pointer;
-
-  .logo-image {
-    width: 120px;
-    height: auto;
-  }
-}
-
-.header-links {
-  position: fixed;
-  top: 28px;
-  right: 28px;
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  z-index: 100;
-}
-
-.header-link {
-  display: flex;
-  align-items: center;
-  gap: 7px;
-  padding: 9px 15px;
-  border-radius: 20px;
-  background: rgba(255, 255, 255, 0.2);
-  border: 1px solid rgba(255, 255, 255, 0.25);
-  color: var(--td-text-color-anti);
-  text-decoration: none;
-  font-size: var(--app-text-md);
-  font-weight: 600;
-  font-family: var(--app-font-family);
-  letter-spacing: 0.2px;
-  cursor: pointer;
-  position: relative;
-
-  svg {
-    flex-shrink: 0;
-  }
-
-  .link-text {
-    line-height: 1;
-  }
-
-  &:hover {
-    background: rgba(255, 255, 255, 0.3);
-    border-color: rgba(255, 255, 255, 0.4);
-    color: var(--td-text-color-anti);
-  }
-}
-
-.language-switch {
-  position: relative;
-
-  button {
-    background: rgba(255, 255, 255, 0.2);
-    border: 1px solid rgba(255, 255, 255, 0.25);
-    color: var(--td-text-color-anti);
-
-    .lang-flag-icon {
-      font-size: var(--app-text-xl);
-      line-height: 1;
-      flex-shrink: 0;
-    }
-
-    &:hover {
-      background: rgba(255, 255, 255, 0.3);
-      border-color: rgba(255, 255, 255, 0.4);
-    }
-
-    svg:last-child {
-      margin-left: 2px;
-      flex-shrink: 0;
-    }
-  }
-}
-
-.language-dropdown {
-  position: absolute;
-  top: calc(100% + 8px);
-  right: 0;
-  min-width: 160px;
-  background: rgba(255, 255, 255, 0.97);
-  border: 1px solid var(--td-component-stroke);
-  border-radius: var(--app-radius-md);
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
-  overflow: hidden;
-  z-index: 1000;
-}
-
-.language-option {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  padding: 10px 14px;
-  cursor: pointer;
-  font-size: var(--app-text-md);
-  font-family: var(--app-font-family);
-  color: var(--td-text-color-primary);
-
-  .lang-flag {
-    font-size: var(--app-text-xl);
-    flex-shrink: 0;
-  }
-
-  .lang-label {
-    flex: 1;
-  }
-
-  .check-icon {
-    color: var(--td-success-color);
-    font-weight: 700;
-    font-size: var(--app-text-base);
-    flex-shrink: 0;
-  }
-
-  &:hover {
-    background: var(--td-bg-color-secondarycontainer);
-  }
-
-  &.active {
-    background: var(--td-success-color-light);
-    color: var(--td-brand-color-active);
-  }
 }
 
 .form-card {
@@ -1600,226 +1303,39 @@ onMounted(async () => {
   margin-top: 12px;
 }
 
-.login-features {
-  margin-top: 20px;
-  padding: 0;
 
-  .feature-item {
-    display: flex;
-    align-items: center;
-    margin-bottom: 12px;
-    font-size: var(--app-text-md);
-    color: var(--td-text-color-secondary);
-    font-family: var(--app-font-family);
-
-    &:last-child {
-      margin-bottom: 0;
-    }
-
-    .feature-icon {
-      width: 20px;
-      height: 20px;
-      border-radius: 50%;
-      background: var(--td-success-color-light);
-      color: var(--td-brand-color-active);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: var(--app-text-sm);
-      font-weight: 700;
-      margin-right: 10px;
-      flex-shrink: 0;
-    }
-
-    .feature-text {
-      line-height: 1.4;
-    }
-  }
-}
 
 /* Responsive Design */
 @media (max-width: 1024px) {
-  .knowledge-node:nth-of-type(n + 13) {
-    display: none;
-  }
-
-  .connection-line:nth-of-type(n + 13) {
-    display: none;
-  }
-
-  .showcase-subtitle {
-    font-size: var(--app-text-2xl);
-  }
-
-  .header-logo {
-    top: 26px;
-    left: 40px;
-
-    .logo-image {
-      width: 100px;
-    }
-  }
-
-  .header-links {
-    top: 22px;
-    right: 22px;
-    gap: 8px;
-
-    .link-text {
-      display: none;
-    }
-
-    .header-link {
-      padding: 10px;
-      gap: 0;
-    }
-  }
+  .knowledge-node:nth-of-type(n + 13) { display: none; }
+  .connection-line:nth-of-type(n + 13) { display: none; }
 }
 
 @media (max-width: 768px) {
-  .login-layout {
-    flex-direction: column;
-    padding-top: 64px;
-    box-sizing: border-box;
-  }
-
-  .knowledge-node:nth-of-type(n + 9) {
-    display: none;
-  }
-
-  .connection-line:nth-of-type(n + 9) {
-    display: none;
-  }
-
-  .showcase-section {
-    flex: 0 0 auto;
-    min-height: 50vh;
-    padding: 40px 24px;
-  }
-
-  .showcase-content {
-    max-width: 100%;
-  }
-
-  .header-logo {
-    top: 22px;
-    left: 30px;
-
-    .logo-image {
-      width: 80px;
-    }
-  }
-
-  .showcase-subtitle {
-    font-size: var(--app-text-xl);
-    margin-bottom: 24px;
-  }
-
-  .feature-tags {
-    margin-bottom: 24px;
-  }
-
-  .carousel-container {
-    margin-top: 24px;
-  }
-
-  .form-section {
-    order: -1;
-    flex: 0 0 auto;
-    padding: 24px;
-  }
-
-  .header-links {
-    top: 18px;
-    right: 18px;
-    gap: 8px;
-
-    .link-text {
-      display: inline;
-    }
-
-    .header-link {
-      padding: 8px 12px;
-      font-size: var(--app-text-sm);
-    }
-  }
-
-  .form-card {
-    padding: 32px 24px;
-  }
-
-  .form-title {
-    font-size: 22px;
-  }
+  .login-layout { padding-top: 80px; }
+  .login-center { padding: 0 20px 40px; }
+  .brand-name { font-size: 36px; }
+  .page-logo { top: 24px; left: 24px; width: 110px; }
+  .knowledge-node:nth-of-type(n + 9) { display: none; }
+  .connection-line:nth-of-type(n + 9) { display: none; }
+  .form-card { padding: 28px 20px; }
 }
 
 @media (max-width: 480px) {
-  .animated-bg {
-    display: none;
-  }
-
-  .showcase-section {
-    padding: 32px 20px;
-  }
-
-  .header-logo {
-    top: 18px;
-    left: 20px;
-
-    .logo-image {
-      width: 70px;
-    }
-  }
-
-  .showcase-subtitle {
-    font-size: var(--app-text-base);
-  }
-
-  .tag {
-    font-size: var(--app-text-sm);
-    padding: 6px 16px;
-  }
-
-  .form-section {
-    padding: 20px;
-  }
-
-  .header-links {
-    top: 14px;
-    right: 14px;
-    gap: 6px;
-    flex-wrap: wrap;
-
-    .link-text {
-      display: none;
-    }
-
-    .header-link {
-      padding: 7px 10px;
-      font-size: var(--app-text-xs);
-    }
-  }
-
-  .form-card {
-    padding: 28px 20px;
-  }
-
-  .form-header {
-    margin-bottom: 24px;
-  }
+  .animated-bg { display: none; }
+  .knowledge-node:nth-of-type(n + 5) { display: none; }
+  .connection-line:nth-of-type(n + 5) { display: none; }
+  .brand-name { font-size: 30px; }
+  .form-card { padding: 24px 18px; }
 }
 
 @media (prefers-reduced-motion: reduce) {
-
   .knowledge-node,
   .connection-line {
     animation: none !important;
     transition: none !important;
   }
-
-  .animated-bg {
-    display: none;
-  }
+  .animated-bg { display: none; }
 }
 </style>
 
@@ -1827,6 +1343,10 @@ onMounted(async () => {
 html[theme-mode="dark"] {
   .login-layout {
     background: linear-gradient(225deg, #011a14 0%, #032e22 15%, #043a2c 25%, #05503d 38%, #046647 50%, #038a56 65%, #049b60 78%, #06a06a 90%, #07b074 100%);
+  }
+
+  .page-logo {
+    filter: brightness(0) invert(1);
   }
 
   .knowledge-node {
@@ -1837,38 +1357,6 @@ html[theme-mode="dark"] {
 
   .connection-line {
     stroke: rgba(255, 255, 255, 0.25);
-  }
-
-  .header-logo .logo-image {
-    filter: invert(1) hue-rotate(180deg) brightness(1.1);
-  }
-
-  .header-link {
-    background: rgba(255, 255, 255, 0.12);
-    border-color: rgba(255, 255, 255, 0.15);
-
-    &:hover {
-      background: rgba(255, 255, 255, 0.2);
-    }
-  }
-
-  .language-switch button {
-    background: rgba(255, 255, 255, 0.12);
-    border-color: rgba(255, 255, 255, 0.15);
-
-    &:hover {
-      background: rgba(255, 255, 255, 0.2);
-    }
-  }
-
-  .language-dropdown {
-    background: rgba(36, 36, 36, 0.97) !important;
-    border-color: var(--td-component-stroke) !important;
-    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4) !important;
-  }
-
-  .tag {
-    background: rgba(255, 255, 255, 0.12);
   }
 
   .form-card {
@@ -1884,21 +1372,8 @@ html[theme-mode="dark"] {
     background: var(--td-bg-color-page) !important;
     border-color: rgba(255, 255, 255, 0.1) !important;
 
-    &:hover {
-      border-color: var(--td-brand-color) !important;
-    }
-
-    &:focus-within {
-      border-color: var(--td-brand-color) !important;
-    }
-  }
-
-  .screenshot-swiper .swiper-pagination-bullet-active {
-    background: rgba(255, 255, 255, 0.9) !important;
-  }
-
-  .login-features .feature-icon {
-    background: rgba(6, 176, 77, 0.15);
+    &:hover { border-color: var(--td-brand-color) !important; }
+    &:focus-within { border-color: var(--td-brand-color) !important; }
   }
 }
 </style>

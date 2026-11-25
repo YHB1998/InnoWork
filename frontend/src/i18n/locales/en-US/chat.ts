@@ -1,4 +1,4 @@
-export default {
+﻿export default {
   localBrowser: {
     pipOpen: 'Pop out preview',
     pipReturn: 'Return to conversation',
@@ -338,7 +338,7 @@ export default {
     }
   },
   createChat: {
-    title: 'Hi, I am WeKnora — your knowledge, within reach',
+    title: 'What would you like to do in InnuovoWork today?',
     newSessionTitle: 'New Session',
     openProject: 'Select project',
     clearProject: 'Clear',

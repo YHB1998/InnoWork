@@ -1,4 +1,4 @@
-export default {
+﻿export default {
   upload: {
     uploadDocument: '上传文档',
     uploadFolder: '上传文件夹',
@@ -106,9 +106,9 @@ export default {
           name: 'MarkItDown',
           desc: 'Microsoft MarkItDown 文档转换工具（支持 PDF/Office/HTML 等）'
         },
-        weknoracloud: {
-          name: 'WeKnora Cloud',
-          desc: '使用 WeKnora Cloud 进行文档解析'
+        InnuovoWorkCloud: {
+          name: 'InnuovoWork Cloud',
+          desc: '使用 InnuovoWork Cloud 进行文档解析'
         },
         paddleocr_vl_cloud: {
           name: 'PaddleOCR-VL Cloud',
@@ -884,7 +884,7 @@ export default {
       systemActor: '系统触发',
       actorWithAPIKey: '{actor} · API Key · {name}',
       actorAPIKey: 'API Key · {name}',
-      viaAssistant: '经 WeKnora 助手',
+      viaAssistant: '经 InnuovoWork 助手',
       knowledgeBase: '知识库',
       countItems: '共 {count} 项',
       titleWithCount: '{title} 等 {count} 项',

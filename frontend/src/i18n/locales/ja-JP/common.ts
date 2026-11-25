@@ -1,4 +1,4 @@
-export default {
+﻿export default {
   notifications: {
     pending: '対応が必要',
     history: '通知履歴',
@@ -89,16 +89,16 @@ export default {
     reopen: 'プロダクトツアー',
     steps: {
       assistant: {
-        title: 'WeKnora アシスタントのご紹介',
-        desc: 'WeKnora のバージョン、機能、設定について質問できます。現在のページをもとに、あなたの権限でエージェントの作成、定期タスクの設定、ナレッジの整理も行えます。'
+        title: 'InnuovoWork アシスタントのご紹介',
+        desc: 'InnuovoWork のバージョン、機能、設定について質問できます。現在のページをもとに、あなたの権限でエージェントの作成、定期タスクの設定、ナレッジの整理も行えます。'
       },
       welcome: {
-        title: 'WeKnoraへようこそ',
+        title: 'InnuovoWorkへようこそ',
         desc: '数ステップでナレッジベース、チャット、エージェントの使い方をご紹介します。「次へ」をクリックして開始してください。'
       },
       knowledge: {
         title: 'ナレッジベースを作成',
-        desc: 'すべてはここから始まります。ドキュメント、Webページ、FAQをアップロードすると、WeKnoraが自動で解析してインデックスを作成します。ここをクリックしてナレッジベースを開いてください。'
+        desc: 'すべてはここから始まります。ドキュメント、Webページ、FAQをアップロードすると、InnuovoWorkが自動で解析してインデックスを作成します。ここをクリックしてナレッジベースを開いてください。'
       },
       chat: {
         title: 'AIチャットを開始',
@@ -532,7 +532,7 @@ export default {
     }
   },
   platform: {
-    subtitle: 'LLM駆動のエンタープライズ向けナレッジフレームワーク',
+    subtitle: 'AI 駆動のエージェント作業プラットフォーム',
     description: 'RAG検索、エージェント推論、Wikiナレッジベースにより、ドキュメントを本当に理解し活用できます',
     rag: 'RAG拡張生成',
     agent: 'ReActエージェント',

@@ -106,7 +106,7 @@ const defaultSettings: Settings = {
     rerankModelId: "",
     selectedChatModelId: "",  // 用户当前选择的对话模型ID
   },
-  selectedAgentId: BUILTIN_QUICK_ANSWER_ID,  // 默认选中快速问答模式
+  selectedAgentId: BUILTIN_SMART_REASONING_ID,  // 默认选中智能推理模式
   selectedAgentSourceTenantId: null as string | null,  // 共享智能体来源空间 ID
   autoCheckUpdate: true,
 };
@@ -132,7 +132,7 @@ export const useSettingsStore = defineStore("settings", {
 
     // 当前是否为内置快速问答（优先看 selectedAgentId，避免与 isAgentEnabled 漂移）
     isQuickAnswerMode: (state) =>
-      (state.settings.selectedAgentId || BUILTIN_QUICK_ANSWER_ID) === BUILTIN_QUICK_ANSWER_ID,
+      (state.settings.selectedAgentId || BUILTIN_SMART_REASONING_ID) === BUILTIN_QUICK_ANSWER_ID,
 
     // 是否走 Agent 流式管线（智能推理 / 自定义 Agent）；快速问答走 RAG 管线
     isAgentStreamMode: (state) =>
@@ -179,7 +179,7 @@ export const useSettingsStore = defineStore("settings", {
     isAutoCheckUpdateEnabled: (state) => state.settings.autoCheckUpdate ?? true,
 
     // 当前选中的智能体ID
-    selectedAgentId: (state) => state.settings.selectedAgentId || BUILTIN_QUICK_ANSWER_ID,
+    selectedAgentId: (state) => state.settings.selectedAgentId || BUILTIN_SMART_REASONING_ID,
     // 共享智能体来源空间 ID（可选）
     selectedAgentSourceTenantId: (state) => state.settings.selectedAgentSourceTenantId ?? null,
   },
@@ -467,14 +467,14 @@ export const useSettingsStore = defineStore("settings", {
     getSuggestedQuestionsParams(limit?: number) {
       const selectedKBs = this.getSelectedKnowledgeBases();
       const selectedFiles = this.getSelectedFiles();
-      const tags = this.settings.selectedTags || [];
+      const tags: Settings['selectedTags'] = this.settings.selectedTags || [];
       const tagScopes = Object.entries(tags.reduce<Record<string, string[]>>((scopes, tag) => {
         if (!tag.id || !tag.kbId) return scopes;
         (scopes[tag.kbId] ||= []).push(tag.id);
         return scopes;
       }, {})).map(([knowledge_base_id, ids]) => ({
         knowledge_base_id,
-        tag_ids: [...new Set(ids)],
+        tag_ids: Array.from(new Set(ids)),
       }));
       return {
         // A tag's parent KB is only an ownership hint, not an explicit whole-KB
@@ -517,7 +517,7 @@ export const useSettingsStore = defineStore("settings", {
     
     // 获取选中的智能体ID
     getSelectedAgentId(): string {
-      return this.settings.selectedAgentId || BUILTIN_QUICK_ANSWER_ID;
+      return this.settings.selectedAgentId || BUILTIN_SMART_REASONING_ID;
     },
 
     // —— 会话级输入态恢复 —— //

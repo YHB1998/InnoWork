@@ -18,6 +18,9 @@ services:
       - MAX_FILE_SIZE_MB=${MAX_FILE_SIZE_MB:-50}
       - MAX_SKILL_BUNDLE_SIZE_MB=${MAX_SKILL_BUNDLE_SIZE_MB:-256}
       - DEFAULT_LOCALE=${DEFAULT_LOCALE:-}
+      # 品牌定制：对话页面默认选中的自定义智能体 ID。留空或未设置时回退内置「智能推理」。
+      # 改完只需要重启 frontend 容器（无需重建镜像）。
+      - DEFAULT_CUSTOM_AGENT_ID=${DEFAULT_CUSTOM_AGENT_ID:-}
       - APP_HOST=${APP_HOST:-app}
       # APP_BACKEND_PORT: the port NGINX proxies to (default 8080).
       # For local deployment this is the App container's listening port, independent of host-mapped APP_PORT.

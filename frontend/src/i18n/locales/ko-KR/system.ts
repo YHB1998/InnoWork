@@ -1,4 +1,4 @@
-export default {
+﻿export default {
   documentProgress: {
     queueView: '큐 작업',
     title: '자료 및 Wiki 진행 상황',
@@ -71,16 +71,16 @@ export default {
     loadingInfo: '정보 로딩 중...',
     retry: '재시도',
     versionLabel: '앱 버전',
-    versionDescription: '애플리케이션 서비스(weknora-app)의 버전 번호',
+    versionDescription: '애플리케이션 서비스(InnuovoWork-app)의 버전 번호',
     frontendVersionLabel: 'UI 버전',
-    frontendVersionDescription: 'UI(weknora-ui) 빌드 버전 번호',
+    frontendVersionDescription: 'UI(InnuovoWork-ui) 빌드 버전 번호',
     versionMismatch: '앱 버전과 일치하지 않음',
     buildTimeLabel: '빌드 시간',
     buildTimeDescription: '시스템이 빌드된 시간',
     goVersionLabel: 'Go 버전',
     goVersionDescription: '백엔드에서 사용하는 Go 언어 버전',
     docreaderVersionLabel: 'Docreader 버전',
-    docreaderVersionDescription: '현재 문서 분석 서비스(weknora-docreader)의 빌드 버전',
+    docreaderVersionDescription: '현재 문서 분석 서비스(InnuovoWork-docreader)의 빌드 버전',
     startedAtLabel: '서비스 시작 시각',
     startedAtDescription: '현재 백엔드 프로세스가 마지막으로 시작된 시각',
     uptimeLabel: '가동 시간',

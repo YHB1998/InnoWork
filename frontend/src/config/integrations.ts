@@ -34,9 +34,7 @@ export const INTEGRATION_PREVIEW_ITEMS: Array<{
 }> = [
   { key: 'im', icon: { type: 'icon', name: 'chat-message' } },
   { key: 'embed', icon: { type: 'icon', name: 'code' } },
-  { key: 'api', icon: { type: 'icon', name: 'secured' } },
-  { key: 'mcpserver', icon: { type: 'icon', name: 'tools' } },
-  { key: 'cli', icon: { type: 'icon', name: 'code' } },
-  { key: 'chrome', icon: { type: 'icon', name: 'extension' } },
-  { key: 'claw', icon: { type: 'emoji', value: '🦞' } },
+  // { key: 'api', icon: { type: 'icon', name: 'secured' } },  // 可恢复
+  // { key: 'mcpserver', icon: { type: 'icon', name: 'tools' } },  // 可恢复
+  // { key: 'chrome', icon: { type: 'icon', name: 'extension' } },  // 可恢复
 ]

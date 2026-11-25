@@ -1,4 +1,4 @@
-export default {
+﻿export default {
   localBrowser: {
     pipOpen: '弹出悬浮窗',
     pipReturn: '返回对话小窗',
@@ -360,7 +360,7 @@ export default {
     attachmentStillProcessing: '附件 {name} 仍在解析，请稍候'
   },
   createChat: {
-    title: 'Hi，我是 WeKnora，让你的知识触手可及',
+    title: '今天想在 InnuovoWork 里做点什么？',
     newSessionTitle: '新会话',
     openProject: '选择项目',
     clearProject: '取消绑定',

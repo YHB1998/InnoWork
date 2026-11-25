@@ -1,4 +1,4 @@
-export default {
+﻿export default {
   notifications: {
     pending: '待处理',
     history: '通知记录',
@@ -155,7 +155,7 @@ export default {
     pinned: '已置顶'
   },
   platform: {
-    subtitle: '大模型驱动的企业级知识框架',
+    subtitle: 'AI 驱动的智能体工作平台',
     description: 'RAG 检索、智能体推理、Wiki 知识库，让文档真正被理解和运用',
     rag: 'RAG 增强生成',
     agent: 'ReAct 智能体',
@@ -601,8 +601,8 @@ export default {
     reopen: '新手引导',
     steps: {
       assistant: {
-        title: '认识 WeKnora 助手',
-        desc: '可以问 WeKnora 的版本、功能和配置，也可以结合当前页面，以你的身份创建智能体、设置定时任务或整理知识。'
+        title: '认识 InnuovoWork 助手',
+        desc: '可以问 InnuovoWork 的版本、功能和配置，也可以结合当前页面，以你的身份创建智能体、设置定时任务或整理知识。'
       },
       done: {
         title: '一切就绪',
@@ -626,10 +626,10 @@ export default {
       },
       knowledge: {
         title: '创建你的知识库',
-        desc: '知识库是一切的起点：上传文档、网页或 FAQ，WeKnora 会自动解析并建立索引。点击这里进入知识库。'
+        desc: '知识库是一切的起点：上传文档、网页或 FAQ，InnuovoWork 会自动解析并建立索引。点击这里进入知识库。'
       },
       welcome: {
-        title: '欢迎使用 WeKnora',
+        title: '欢迎使用 InnuovoWork',
         desc: '只需几步，带你快速了解知识库、对话与智能体的核心用法。点击「下一步」开始。'
       }
     }

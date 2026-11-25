@@ -1,4 +1,4 @@
-export default {
+﻿export default {
   localBrowser: {
     pipOpen: 'Открыть плавающее окно',
     pipReturn: 'Вернуть предпросмотр в чат',
@@ -360,7 +360,7 @@ export default {
     attachmentStillProcessing: 'Вложение {name} ещё обрабатывается'
   },
   createChat: {
-    title: 'Привет, я WeKnora — ваши знания всегда под рукой',
+    title: 'Чем вы хотите заняться в InnuovoWork сегодня?',
     newSessionTitle: 'Новая сессия',
     openProject: 'Выбрать проект',
     clearProject: 'Снять привязку',

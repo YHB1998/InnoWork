@@ -2925,7 +2925,7 @@ const defaultFormData = {
     // Agent模式设置
     max_iterations: 10,
     llm_call_timeout: 120,  // 120 seconds
-    allowed_tools: [] as string[],
+    allowed_tools: ['thinking', 'todo_write', 'ask_user', 'search_conversations', 'search_knowledge', 'read_document', 'list_documents', 'query_knowledge_graph'] as string[],
     reflection_enabled: false,
     // MCP 服务设置
     mcp_selection_mode: 'none' as 'all' | 'selected' | 'none',
@@ -2944,9 +2944,9 @@ const defaultFormData = {
     kb_selection_mode: 'all' as 'all' | 'selected' | 'none',
     knowledge_bases: [] as string[],
     retrieve_kb_only_when_mentioned: false,
-    // 智能推理下的类型预设：新建 agent 时默认给 RAG 问答（最常用场景）。
+    // 智能推理下的类型预设：新建 agent 时默认给 custom（自定义模式）。
     // 编辑既有 agent 时会被 agent 自己保存的 agent_type 覆盖。
-    agent_type: 'rag-qa' as AgentType,
+    agent_type: 'custom' as AgentType,
     system_prompt_id: '' as string,
     // 附件上传设置
     image_upload_enabled: false,
@@ -2975,9 +2975,8 @@ const defaultFormData = {
     multi_turn_enabled: false,
     history_turns: 5,
     retain_retrieval_history: false,
-    // 长期记忆：默认跟随空间设置。写 true 与不写等价，只有 false 才会
-    // 让这个智能体单独不读记忆。
-    memory_enabled: true,
+    // 长期记忆：默认关闭。写 false 让这个智能体单独不读记忆。
+    memory_enabled: false,
     // 检索策略设置
     embedding_top_k: 10,
     keyword_threshold: 0.3,
@@ -3750,34 +3749,8 @@ watch(() => props.visible, async (val) => {
       newFormData.config.max_completion_tokens = 0;
       newFormData.config.max_iterations = -1;
       newFormData.config.temperature = defaultTemperature.value;
-      // 应用系统默认提示词（根据模式填充）
-      const isAgent = newFormData.config.agent_mode === 'smart-reasoning';
-      if (isAgent) {
-        // Agent 模式使用 agent-config 的默认系统提示词
-        if (defaultAgentSystemPrompt.value) {
-          newFormData.config.system_prompt = defaultAgentSystemPrompt.value;
-        }
-      } else {
-        // 快速问答模式：默认提示词来自 prompt-templates 的 default 项
-        if (defaultNormalSystemPrompt.value) {
-          newFormData.config.system_prompt = defaultNormalSystemPrompt.value;
-        }
-        if (defaultContextTemplate.value) {
-          newFormData.config.context_template = defaultContextTemplate.value;
-        }
-        if (defaultRewritePromptSystem.value) {
-          newFormData.config.rewrite_prompt_system = defaultRewritePromptSystem.value;
-        }
-        if (defaultRewritePromptUser.value) {
-          newFormData.config.rewrite_prompt_user = defaultRewritePromptUser.value;
-        }
-        if (defaultFallbackPrompt.value) {
-          newFormData.config.fallback_prompt = defaultFallbackPrompt.value;
-        }
-        if (defaultFallbackResponse.value) {
-          newFormData.config.fallback_response = defaultFallbackResponse.value;
-        }
-      }
+      // 不再预填任何默认系统提示词 / 上下文模板 / 改写提示词 / 兜底提示词，
+      // 让用户自己填写（或由 agent_type 预设按需注入）。
       formData.value = newFormData;
       // 新建智能体：知识库默认 "全部"，MCP / Skills 仍默认 "不使用"。
       kbSelectionMode.value = 'all';
@@ -4022,40 +3995,13 @@ watch(agentMode, (val, _oldVal) => {
     if (formData.value.config.max_iterations >= 0 && formData.value.config.max_iterations <= 1) {
       formData.value.config.max_iterations = -1;
     }
-    // 切换到 Agent 模式时，如果系统提示词是快速问答的默认值或为空，替换为 Agent 默认提示词
-    if (defaultAgentSystemPrompt.value) {
-      const isDefaultNormalPrompt = formData.value.config.system_prompt === defaultNormalSystemPrompt.value;
-      if (!formData.value.config.system_prompt || isDefaultNormalPrompt) {
-        formData.value.config.system_prompt = defaultAgentSystemPrompt.value;
-      }
-    }
+    // 不再自动切换系统提示词；prompt 保持用户填写的内容（或由 agent_type 预设注入）。
   } else {
     // 切换到普通模式，清空工具
     formData.value.config.allowed_tools = [];
     formData.value.config.max_iterations = 1; // 设置为1表示单轮 RAG
-    // 切换到快速问答模式时，如果系统提示词是 Agent 的默认值或为空，替换为快速问答默认提示词
-    if (defaultNormalSystemPrompt.value) {
-      const isDefaultAgentPrompt = formData.value.config.system_prompt === defaultAgentSystemPrompt.value;
-      if (!formData.value.config.system_prompt || isDefaultAgentPrompt) {
-        formData.value.config.system_prompt = defaultNormalSystemPrompt.value;
-      }
-    }
-    // 其他提示词只在为空时填充
-    if (!formData.value.config.context_template && defaultContextTemplate.value) {
-      formData.value.config.context_template = defaultContextTemplate.value;
-    }
-    if (!formData.value.config.rewrite_prompt_system && defaultRewritePromptSystem.value) {
-      formData.value.config.rewrite_prompt_system = defaultRewritePromptSystem.value;
-    }
-    if (!formData.value.config.rewrite_prompt_user && defaultRewritePromptUser.value) {
-      formData.value.config.rewrite_prompt_user = defaultRewritePromptUser.value;
-    }
-    if (!formData.value.config.fallback_prompt && defaultFallbackPrompt.value) {
-      formData.value.config.fallback_prompt = defaultFallbackPrompt.value;
-    }
-    if (!formData.value.config.fallback_response && defaultFallbackResponse.value) {
-      formData.value.config.fallback_response = defaultFallbackResponse.value;
-    }
+    // 不再自动填充 defaultNormalSystemPrompt / context / rewrite / fallback；
+    // 这些 prompt 字段留给用户自己填写或由预设按需注入。
   }
 });
 

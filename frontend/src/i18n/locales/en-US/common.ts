@@ -1,4 +1,4 @@
-export default {
+﻿export default {
   notifications: {
     pending: 'Needs attention',
     history: 'Notification history',
@@ -89,16 +89,16 @@ export default {
     reopen: 'Product tour',
     steps: {
       assistant: {
-        title: 'Meet the WeKnora Assistant',
-        desc: 'Ask about WeKnora versions, features and setup. Using the current page as context, the assistant can create agents, schedule tasks and organize knowledge on your behalf, within your permissions.'
+        title: 'Meet the InnuovoWork Assistant',
+        desc: 'Ask about InnuovoWork versions, features and setup. Using the current page as context, the assistant can create agents, schedule tasks and organize knowledge on your behalf, within your permissions.'
       },
       welcome: {
-        title: 'Welcome to WeKnora',
+        title: 'Welcome to InnuovoWork',
         desc: 'A few quick steps to get you familiar with knowledge bases, chat and agents. Click "Next" to begin.'
       },
       knowledge: {
         title: 'Create your knowledge base',
-        desc: 'Everything starts here: upload documents, web pages or FAQs and WeKnora parses and indexes them automatically. Click here to open knowledge bases.'
+        desc: 'Everything starts here: upload documents, web pages or FAQs and InnuovoWork parses and indexes them automatically. Click here to open knowledge bases.'
       },
       chat: {
         title: 'Start an AI chat',
@@ -532,7 +532,7 @@ export default {
     }
   },
   platform: {
-    subtitle: 'LLM-Powered Enterprise Knowledge Framework',
+    subtitle: 'AI-Powered Agent Workspace',
     description: 'RAG retrieval, agentic reasoning and Wiki knowledge bases — so your documents are truly understood and put to work',
     rag: 'RAG Enhanced Generation',
     agent: 'ReAct Agent',

@@ -6,4 +6,7 @@ window.__RUNTIME_CONFIG__ = {
   EMBED_BASE_URL: '',
   // Optional: default UI locale for first-time visitors (zh-CN | zh-TW | en-US | ru-RU | ko-KR | ja-JP)
   DEFAULT_LOCALE: '',
+  // Optional: brand custom default agent id. 留空则回退内置「智能推理」。
+  // Docker 部署时在 .env 里设 DEFAULT_CUSTOM_AGENT_ID=你的agentID 即可，重启前端容器生效。
+  DEFAULT_CUSTOM_AGENT_ID: '',
 };

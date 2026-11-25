@@ -1,4 +1,4 @@
-export default {
+﻿export default {
   notifications: {
     pending: '처리 필요',
     history: '알림 기록',
@@ -155,7 +155,7 @@ export default {
     pinned: '고정됨'
   },
   platform: {
-    subtitle: '대규모 언어 모델 기반 엔터프라이즈 지식 프레임워크',
+    subtitle: 'AI 기반 에이전트 작업 플랫폼',
     description: 'RAG 검색, 에이전트 추론, Wiki 지식베이스로 문서를 진정으로 이해하고 활용합니다',
     rag: 'RAG 강화 생성',
     agent: 'ReAct 에이전트',
@@ -601,8 +601,8 @@ export default {
     reopen: '사용 가이드',
     steps: {
       assistant: {
-        title: 'WeKnora 어시스턴트를 만나보세요',
-        desc: 'WeKnora의 버전, 기능, 설정에 대해 질문할 수 있습니다. 현재 페이지를 바탕으로 사용자의 권한 내에서 에이전트를 만들고, 작업을 예약하고, 지식을 정리할 수도 있습니다.'
+        title: 'InnuovoWork 어시스턴트를 만나보세요',
+        desc: 'InnuovoWork의 버전, 기능, 설정에 대해 질문할 수 있습니다. 현재 페이지를 바탕으로 사용자의 권한 내에서 에이전트를 만들고, 작업을 예약하고, 지식을 정리할 수도 있습니다.'
       },
       done: {
         title: '준비 완료',
@@ -626,10 +626,10 @@ export default {
       },
       knowledge: {
         title: '지식 베이스 만들기',
-        desc: '모든 것의 시작점입니다. 문서, 웹페이지, FAQ를 업로드하면 WeKnora가 자동으로 분석하고 색인합니다. 여기를 클릭해 지식 베이스로 이동하세요.'
+        desc: '모든 것의 시작점입니다. 문서, 웹페이지, FAQ를 업로드하면 InnuovoWork가 자동으로 분석하고 색인합니다. 여기를 클릭해 지식 베이스로 이동하세요.'
       },
       welcome: {
-        title: 'WeKnora에 오신 것을 환영합니다',
+        title: 'InnuovoWork에 오신 것을 환영합니다',
         desc: '몇 단계만으로 지식 베이스, 대화, 에이전트의 핵심 사용법을 안내합니다. \'다음\'을 눌러 시작하세요.'
       }
     }

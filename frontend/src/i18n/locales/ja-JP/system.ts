@@ -1,4 +1,4 @@
-export default {
+﻿export default {
   documentProgress: {
     queueView: 'キュータスク',
     title: '資料と Wiki の進捗',
@@ -71,16 +71,16 @@ export default {
     loadingInfo: '情報を読み込み中...',
     retry: '再試行',
     versionLabel: 'アプリバージョン',
-    versionDescription: 'アプリケーションサービス（weknora-app）のバージョン',
+    versionDescription: 'アプリケーションサービス（InnuovoWork-app）のバージョン',
     frontendVersionLabel: 'UIバージョン',
-    frontendVersionDescription: 'UI（weknora-ui）のビルドバージョン',
+    frontendVersionDescription: 'UI（InnuovoWork-ui）のビルドバージョン',
     versionMismatch: 'アプリバージョンと不一致',
     buildTimeLabel: 'ビルド日時',
     buildTimeDescription: 'システムがビルドされた日時',
     goVersionLabel: 'Goバージョン',
     goVersionDescription: 'バックエンドが使用しているGo言語のバージョン',
     docreaderVersionLabel: 'Docreaderバージョン',
-    docreaderVersionDescription: '現在の文書解析サービス（weknora-docreader）のビルドバージョン',
+    docreaderVersionDescription: '現在の文書解析サービス（InnuovoWork-docreader）のビルドバージョン',
     startedAtLabel: 'サービス起動日時',
     startedAtDescription: '現在のバックエンドプロセスが最後に起動した日時',
     uptimeLabel: '稼働時間',

@@ -302,7 +302,7 @@ const showLeaveDangerZone = computed(() => {
 const showDeleteDangerZone = computed(() => {
   if (loading.value || error.value || !tenantInfo.value) return false
   if (Number(tenantInfo.value.id) !== activeTenantNumericId.value) return false
-  return authStore.hasRole('owner')
+  return authStore.isSystemAdmin
 })
 
 async function evaluateLeaveGate(): Promise<void> {

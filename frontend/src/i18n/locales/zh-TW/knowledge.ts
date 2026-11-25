@@ -1,4 +1,4 @@
-export default {
+﻿export default {
   upload: {
     uploadDocument: '上傳文件',
     uploadFolder: '上傳資料夾',
@@ -106,9 +106,9 @@ export default {
           name: 'MarkItDown',
           desc: 'Microsoft MarkItDown 文件轉換工具（支援 PDF/Office/HTML 等）'
         },
-        weknoracloud: {
-          name: 'WeKnora Cloud',
-          desc: '使用 WeKnora Cloud 進行文件解析'
+        InnuovoWorkCloud: {
+          name: 'InnuovoWork Cloud',
+          desc: '使用 InnuovoWork Cloud 進行文件解析'
         },
         paddleocr_vl_cloud: {
           name: 'PaddleOCR-VL Cloud',
@@ -884,7 +884,7 @@ export default {
       systemActor: '系統觸發',
       actorWithAPIKey: '{actor} · API Key · {name}',
       actorAPIKey: 'API Key · {name}',
-      viaAssistant: '經 WeKnora 助手',
+      viaAssistant: '經 InnuovoWork 助手',
       knowledgeBase: '知識庫',
       countItems: '共 {count} 項',
       titleWithCount: '{title} 等 {count} 項',
